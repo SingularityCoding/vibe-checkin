@@ -1,15 +1,26 @@
 {
-  "name": "miniprogram-ts-quickstart",
-  "version": "1.0.0",
-  "description": "",
+  "name": "vibe-checkin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Specs-driven WeChat Mini Program course project for learning check-ins.",
   "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test:typecheck": "tsc --noEmit --project tsconfig.test.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npm run typecheck && npm run test:typecheck && npm run test"
   },
   "keywords": [],
   "author": "",
   "license": "",
   "dependencies": {
   },
+  "engines": {
+    "node": "^20.0.0 || ^22.0.0 || >=24.0.0"
+  },
   "devDependencies": {
-    "miniprogram-api-typings": "^2.8.3-1"
+    "miniprogram-api-typings": "5.2.1",
+    "typescript": "5.9.3",
+    "vitest": "4.1.10"
   }
 }

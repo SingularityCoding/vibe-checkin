@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2020", "DOM"],
+    "typeRoots": ["./typings", "./node_modules/@types"],
+    "skipLibCheck": true
+  },
+  "include": ["./tests/**/*.ts"],
+  "exclude": ["node_modules"]
+}
