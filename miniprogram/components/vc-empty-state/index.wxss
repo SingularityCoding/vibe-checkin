@@ -36,6 +36,6 @@
   line-height: 40rpx;
 }
 
-t-button {
+.vc-empty-state__action {
   width: 100%;
 }

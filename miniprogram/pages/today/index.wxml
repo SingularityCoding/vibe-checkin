@@ -15,7 +15,7 @@
 
   <view wx:elif="{{loadState === 'error'}}">
     <vc-status-note state="error" text="{{loadError}}" />
-    <t-button variant="outline" block="{{true}}" bind:tap="retryLoad">重新加载</t-button>
+    <t-button class="retry-button" variant="outline" block="{{true}}" bind:tap="retryLoad">重新加载</t-button>
   </view>
 
   <block wx:else>

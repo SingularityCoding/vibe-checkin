@@ -6,7 +6,7 @@
     </view>
   </view>
 
-  <vc-status-note wx:if="{{loadError}}" state="error" text="{{loadError}}" />
+  <vc-status-note class="load-error" wx:if="{{loadError}}" state="error" text="{{loadError}}" />
 
   <view class="settings-section settings-section--first">
     <settings-preference

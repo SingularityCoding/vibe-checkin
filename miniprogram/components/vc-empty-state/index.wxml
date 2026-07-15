@@ -4,7 +4,7 @@
   </view>
   <view class="vc-empty-state__title">{{title}}</view>
   <view class="vc-empty-state__description">{{description}}</view>
-  <t-button wx:if="{{actionText}}" theme="primary" block="{{true}}" bind:tap="onAction">
+  <t-button class="vc-empty-state__action" wx:if="{{actionText}}" theme="primary" block="{{true}}" bind:tap="onAction">
     {{actionText}}
   </t-button>
 </view>

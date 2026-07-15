@@ -21,7 +21,7 @@ export const resolveTheme = (theme?: string): AppTheme => (theme === 'dark' ? 'd
 export const getNavigationTheme = (theme: AppTheme): NavigationTheme => navigationThemes[theme]
 
 export const syncNavigationTheme = (systemTheme?: string): AppTheme => {
-  const theme = resolveTheme(systemTheme ?? wx.getSystemInfoSync().theme)
+  const theme = resolveTheme(systemTheme ?? wx.getAppBaseInfo().theme)
   const navigationTheme = getNavigationTheme(theme)
 
   wx.setNavigationBarColor({

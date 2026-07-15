@@ -9,8 +9,7 @@
   justify-content: center;
 }
 
-vc-status-note,
-t-button {
+.detail-control {
   margin-top: 20rpx;
 }
 

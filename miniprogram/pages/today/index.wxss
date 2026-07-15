@@ -5,6 +5,6 @@
   justify-content: center;
 }
 
-t-button {
+.retry-button {
   margin-top: 20rpx;
 }

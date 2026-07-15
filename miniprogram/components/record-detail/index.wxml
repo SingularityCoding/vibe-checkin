@@ -3,8 +3,8 @@
 </view>
 
 <view wx:elif="{{loadState === 'error'}}">
-  <vc-status-note state="error" text="{{errorMessage || '学习记录读取失败'}}" />
-  <t-button variant="outline" block="{{true}}" bind:tap="onRetry">重新加载</t-button>
+  <vc-status-note class="detail-control" state="error" text="{{errorMessage || '学习记录读取失败'}}" />
+  <t-button class="detail-control" variant="outline" block="{{true}}" bind:tap="onRetry">重新加载</t-button>
 </view>
 
 <vc-card wx:elif="{{!model}}">
@@ -18,7 +18,7 @@
 </vc-card>
 
 <view wx:else>
-  <view class="actions"><t-button variant="text" bind:tap="onEditRecord">编辑</t-button></view>
+  <view class="actions"><t-button class="detail-control" variant="text" bind:tap="onEditRecord">编辑</t-button></view>
   <vc-card>
     <view class="meta">{{model.dateLabel}} · {{model.timeLabel}} · {{model.durationLabel}}</view>
     <view class="tags" wx:if="{{model.tags.length}}">

@@ -4,7 +4,7 @@
 
 <view wx:elif="{{loadState === 'error'}}">
   <vc-status-note state="error" text="学习统计读取失败，请稍后重试。" />
-  <t-button variant="outline" block="{{true}}" bind:tap="onRetry">重新加载</t-button>
+  <t-button class="retry-button" variant="outline" block="{{true}}" bind:tap="onRetry">重新加载</t-button>
 </view>
 
 <vc-card wx:elif="{{!model.hasRecords}}">
