@@ -176,7 +176,7 @@ export interface PreferenceRepository {
 
 统一语义：
 
-- `get(id)` 只有在成功读取且记录确实不存在时返回 `null`；读取失败必须 reject。
+- `get(id)` 只有在成功读取且记录确实不存在时返回 `null`；读取失败必须 reject。对 Cloud 实现而言，“记录不存在”和“记录存在但属于其他微信身份”必须归一为同一个 `null` 结果——查询本身就要显式限定 `_openid: '{openid}'`，不能先取到别人的记录再判断权限，也不能让二者在错误信息或返回形状上产生可观察的差异。
 - `create` 负责生成 `id`、本地 `date`、`createdAt` 和 `updatedAt`。
 - `update` 只能更新可编辑字段和 `updatedAt`，必须保留原有 `id`、`date` 和 `createdAt`。
 - `remove` 和 `removeAllMine` 只有在云端操作实际完成后 resolve。
@@ -230,7 +230,7 @@ P0 提供：
 | Spec | Feature 公开入口 | Component properties | Component events |
 | --- | --- | --- | --- |
 | P1-01 | `buildTodaySummary(records, clock)` | `model` | `create-record` |
-| P1-02 | `createInitialDraft(preference)`、`validateRecordDraft(draft)` | `mode`、`initialDraft`、`saving`、`saveError` | `submit`、`dirty-change` |
+| P1-02 | `createInitialDraft(preference)`、`validateRecordDraft(draft)` | `mode`、`initialDraft`、`suggestedTags`、`saving`、`saveError` | `submit`、`dirty-change` |
 | P1-03 | `collectSuggestedTags(records)`、`normalizeSelectedTags(tags)` | `selectedTags`、`suggestedTags` | `change`，detail 为完整标签数组 |
 | P1-04 | `buildRecordDetail(record)` | `loadState`、`model`、`errorMessage` | `retry`、`edit-record`、`return-to-log` |
 | P1-05 | `buildLogTimeline(records)` | `loadState`、`summary`、`groups` | `retry`、`open-record`、`create-record` |
