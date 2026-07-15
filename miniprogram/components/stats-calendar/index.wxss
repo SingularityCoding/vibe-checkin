@@ -1,3 +1,71 @@
-.slot {
+:host {
   display: block;
+}
+
+.calendar {
+  margin-top: var(--vc-space-6);
+}
+
+.calendar__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--vc-space-3);
+}
+
+.calendar__title {
+  color: var(--vc-color-ink);
+  font-size: 34rpx;
+  font-weight: 600;
+}
+
+.calendar__month {
+  color: var(--vc-color-text-secondary);
+  font-size: 24rpx;
+}
+
+.calendar__weekdays,
+.calendar__days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar__weekday {
+  padding-bottom: var(--vc-space-2);
+  color: var(--vc-color-text-secondary);
+  font-size: 24rpx;
+  text-align: center;
+}
+
+.calendar__day {
+  display: flex;
+  min-width: 0;
+  height: 88rpx;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--vc-radius-sm);
+  color: var(--vc-color-text);
+}
+
+.calendar__day--filler {
+  color: var(--vc-color-text-secondary);
+  opacity: 0.55;
+}
+
+.calendar__day--pressed {
+  background: var(--vc-color-primary-soft);
+}
+
+.calendar__day-number {
+  font-size: 26rpx;
+  line-height: 32rpx;
+}
+
+.calendar__day-mark {
+  width: 10rpx;
+  height: 10rpx;
+  margin-top: 6rpx;
+  border-radius: 50%;
+  background: var(--vc-color-primary);
 }

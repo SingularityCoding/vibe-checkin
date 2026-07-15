@@ -1,1 +1,24 @@
-<view wx:if="{{model.visible}}" class="slot"></view>
+<view wx:if="{{model.visible}}" class="calendar">
+  <view class="calendar__header">
+    <text class="calendar__title">本月学习日历</text>
+    <text class="calendar__month">{{model.monthLabel}}</text>
+  </view>
+
+  <view class="calendar__weekdays">
+    <text wx:for="{{weekdays}}" wx:key="*this" class="calendar__weekday">{{item}}</text>
+  </view>
+
+  <view class="calendar__days">
+    <view
+      wx:for="{{model.days}}"
+      wx:key="date"
+      class="calendar__day {{item.isCurrentMonth ? '' : 'calendar__day--filler'}}"
+      data-date="{{item.date}}"
+      bind:tap="onSelectDate"
+      hover-class="calendar__day--pressed"
+    >
+      <text class="calendar__day-number">{{item.dayOfMonth}}</text>
+      <view wx:if="{{item.hasRecord}}" class="calendar__day-mark"></view>
+    </view>
+  </view>
+</view>
