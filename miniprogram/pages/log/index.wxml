@@ -24,6 +24,7 @@
     load-state="{{loadState}}"
     summary="{{timeline.summary}}"
     groups="{{timeline.groups}}"
+    has-active-filters="{{hasActiveFilters}}"
     bind:retry="retryLoad"
     bind:create-record="openRecordEditor"
     bind:open-record="openRecordDetail"

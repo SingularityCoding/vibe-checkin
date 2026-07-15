@@ -7,7 +7,7 @@
   <t-button class="retry-button" variant="outline" block="{{true}}" bind:tap="onRetry">重新加载</t-button>
 </view>
 
-<vc-card wx:elif="{{!groups.length}}">
+<vc-card wx:elif="{{!groups.length && !hasActiveFilters}}">
   <vc-empty-state
     icon="file"
     title="还没有学习记录"
@@ -17,8 +17,11 @@
   />
 </vc-card>
 
+<view wx:elif="{{!groups.length && hasActiveFilters}}">
+</view>
+
 <view wx:else>
-  <view class="summary">全部记录 · {{summary.checkInDays}} 个打卡日 · {{summary.totalMinutes}} 分钟</view>
+  <view class="summary">{{hasActiveFilters ? '筛选结果' : '全部记录'}} · {{summary.checkInDays}} 个打卡日 · {{summary.totalMinutes}} 分钟</view>
   <view wx:for="{{groups}}" wx:key="date" class="group">
     <view class="group__heading">{{item.dateLabel}} · {{item.totalMinutes}} 分钟 · {{item.records.length}} 条</view>
     <vc-card
@@ -29,7 +32,12 @@
       data-id="{{record.id}}"
       bind:tap="onOpenRecord"
     >
-      <view class="record__meta">{{record.time}} · {{record.duration}} 分钟</view>
+      <view class="record__meta">
+        {{record.time}} · {{record.duration}} 分钟
+        <block wx:if="{{record.tags.length}}">
+          <text wx:for="{{record.tags}}" wx:key="*this" wx:for-item="tag" class="record__tag">{{tag}}</text>
+        </block>
+      </view>
       <view class="record__content">{{record.content}}</view>
     </vc-card>
   </view>

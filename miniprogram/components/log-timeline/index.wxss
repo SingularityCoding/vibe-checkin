@@ -40,3 +40,15 @@
   font-size: 28rpx;
   line-height: 42rpx;
 }
+
+.record__tag {
+  display: inline-block;
+  margin-left: 12rpx;
+  padding: 2rpx 12rpx;
+  color: var(--vc-color-primary);
+  font-size: 22rpx;
+  line-height: 32rpx;
+  border: 1rpx solid var(--vc-color-primary-soft);
+  border-radius: var(--vc-radius-sm);
+  vertical-align: middle;
+}
