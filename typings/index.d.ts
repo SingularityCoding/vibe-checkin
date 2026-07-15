@@ -7,5 +7,6 @@ interface IAppOption {
     userInfo?: WechatMiniprogram.UserInfo,
   }
   devFixtures?: DevFixtureTools
+  fixtureReady: Promise<void>
   userInfoReadyCallback?: WechatMiniprogram.GetUserInfoSuccessCallback,
 }

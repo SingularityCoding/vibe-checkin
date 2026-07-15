@@ -28,6 +28,17 @@ Page({
     syncNavigationTheme()
     this.getTabBar().init()
     this.setData({ todayLabel: formatTodayLabel(clock.now()) })
+
+    try {
+      await getApp<IAppOption>().fixtureReady
+    } catch {
+      this.setData({
+        loadState: 'error',
+        loadError: '测试场景准备失败，请检查编译模式后重新编译。',
+      })
+      return
+    }
+
     await this.loadRecords()
   },
   async loadRecords() {

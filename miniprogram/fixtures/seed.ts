@@ -25,6 +25,32 @@ export type DevFixtureTools = {
   help(): string
 }
 
+export const applyLaunchFixture = async (
+  value: unknown,
+  clock: Clock = new SystemClock(),
+): Promise<void> => {
+  if (value === undefined || value === null || value === '') {
+    return
+  }
+
+  const { envVersion } = wx.getAccountInfoSync().miniProgram
+
+  if (envVersion !== 'develop') {
+    return
+  }
+
+  if (value === 'reset') {
+    await resetFixtureData()
+    return
+  }
+
+  if (!isFixtureScenarioName(value)) {
+    throw new Error(`Unknown launch fixture scenario: ${String(value)}`)
+  }
+
+  await seedFixtureScenario(value, clock)
+}
+
 const reloadTodayPage = (): void => {
   wx.reLaunch({ url: ROUTES.today })
 }

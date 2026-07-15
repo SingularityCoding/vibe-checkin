@@ -370,9 +370,19 @@ P0 提供相对固定 `Clock` 生成的四个场景：
 | `history` | 跨日期、跨月、同日多条、连续与断档同时可验证 |
 | `read-error` | Repository 读取失败，验证错误与重试 |
 
-Fixture 只写入课程专用本地 Storage key，不写 CloudBase。学生可以从开发者工具 Console 调用 P0 暴露的 seed 入口切换场景；每个正式 Spec 会明确自己需要使用哪一个场景以及预期结果。
+Fixture 只写入课程专用本地 Storage key，不写 CloudBase。每个正式 Spec 会明确自己需要使用哪一个场景以及预期结果。
 
-仅在开发版小程序中，Console 暴露以下入口。切换后会自动重新打开 Today 页面：
+课堂上的主要入口是微信开发者工具顶部的编译模式下拉菜单。`project.config.json` 已共享以下配置，学生导入项目后直接选择并编译：
+
+- `测试场景 · 空数据`
+- `测试场景 · 今日记录`
+- `测试场景 · 历史记录`
+- `测试场景 · 读取失败`
+- `测试场景 · 重置数据`
+
+这些模式都从 Today 页面启动，并分别携带 `fixture=empty|today|history|read-error|reset`。`App.onLaunch` 先根据参数准备场景，Today 在首次读取 Repository 前等待 `fixtureReady`。体验版和正式版会忽略所有 Fixture 启动参数。
+
+Console 保留为开发版备用入口。切换后会自动重新打开 Today 页面：
 
 ```js
 await getApp().devFixtures.seed('empty')

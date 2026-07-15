@@ -40,7 +40,42 @@
   },
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
-  "condition": {},
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "测试场景 · 空数据",
+          "pathName": "pages/today/index",
+          "query": "fixture=empty",
+          "scene": 1001
+        },
+        {
+          "name": "测试场景 · 今日记录",
+          "pathName": "pages/today/index",
+          "query": "fixture=today",
+          "scene": 1001
+        },
+        {
+          "name": "测试场景 · 历史记录",
+          "pathName": "pages/today/index",
+          "query": "fixture=history",
+          "scene": 1001
+        },
+        {
+          "name": "测试场景 · 读取失败",
+          "pathName": "pages/today/index",
+          "query": "fixture=read-error",
+          "scene": 1001
+        },
+        {
+          "name": "测试场景 · 重置数据",
+          "pathName": "pages/today/index",
+          "query": "fixture=reset",
+          "scene": 1001
+        }
+      ]
+    }
+  },
   "srcMiniprogramRoot": "miniprogram/",
   "editorSetting": {
     "tabIndent": "insertSpaces",

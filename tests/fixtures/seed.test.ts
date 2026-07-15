@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import {
+  applyLaunchFixture,
   createDevFixtureTools,
   resetFixtureData,
   seedFixtureScenario,
@@ -14,11 +15,14 @@ import { FixedClock } from '../../miniprogram/shared/date/clock'
 const clock = new FixedClock(new Date(2026, 6, 15, 16, 30))
 const storage = new Map<string, unknown>()
 const reLaunch = vi.fn()
+let envVersion = 'develop'
 
 beforeEach(() => {
   storage.clear()
   reLaunch.mockClear()
+  envVersion = 'develop'
   vi.stubGlobal('wx', {
+    getAccountInfoSync: () => ({ miniProgram: { envVersion } }),
     getStorageSync: (key: string) => storage.get(key) ?? '',
     setStorageSync: (key: string, value: unknown) => storage.set(key, value),
     removeStorageSync: (key: string) => storage.delete(key),
@@ -33,6 +37,30 @@ afterEach(() => {
 })
 
 describe('fixture seed tools', () => {
+  it('applies a shared compile-mode fixture before the page reads data', async () => {
+    await applyLaunchFixture('history', clock)
+
+    await expect(recordRepository.list()).resolves.toHaveLength(8)
+
+    await applyLaunchFixture('reset', clock)
+    await expect(recordRepository.list()).resolves.toEqual([])
+  })
+
+  it('ignores fixture launch parameters outside the develop environment', async () => {
+    await applyLaunchFixture('today', clock)
+    envVersion = 'trial'
+
+    await applyLaunchFixture('reset', clock)
+
+    await expect(recordRepository.list()).resolves.toHaveLength(2)
+  })
+
+  it('reports an invalid shared compile-mode fixture clearly', async () => {
+    await expect(applyLaunchFixture('typo', clock)).rejects.toThrow(
+      'Unknown launch fixture scenario: typo',
+    )
+  })
+
   it('seeds persisted history and resets records plus preference', async () => {
     await seedFixtureScenario('history', clock)
 
