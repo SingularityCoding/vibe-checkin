@@ -1,1 +1,35 @@
-<view wx:if="{{dateOptions.length || tagOptions.length}}" class="slot"></view>
+<view class="filters">
+  <scroll-view class="chips-scroll" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+    <view class="chips-row">
+      <t-tag
+        wx:for="{{dateChips}}"
+        wx:key="value"
+        class="chip"
+        theme="{{item.selected ? 'primary' : ''}}"
+        variant="light"
+        size="small"
+        data-value="{{item.value}}"
+        bind:tap="onDateTap"
+      >{{item.label}}</t-tag>
+    </view>
+  </scroll-view>
+
+  <scroll-view wx:if="{{tagChips.length > 0}}" class="chips-scroll" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+    <view class="chips-row">
+      <t-tag
+        wx:for="{{tagChips}}"
+        wx:key="tag"
+        class="chip"
+        theme="{{item.selected ? 'primary' : ''}}"
+        variant="light"
+        size="small"
+        data-tag="{{item.tag}}"
+        bind:tap="onTagTap"
+      >{{item.label}}</t-tag>
+    </view>
+  </scroll-view>
+
+  <view wx:if="{{hasActiveFilter}}" class="clear-row" bind:tap="onClear">
+    <text class="clear-text">清除筛选</text>
+  </view>
+</view>
