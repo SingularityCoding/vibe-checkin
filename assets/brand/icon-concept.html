@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vibe Check-in Icon Concept</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --page: #fff8f0;
+        --surface: #fffdf9;
+        --ink: #30231d;
+        --text: #4e4038;
+        --muted: #817169;
+        --border: #eedfd2;
+        --coral: #e96b52;
+        --mango: #f2a53b;
+        --lemon: #f5d258;
+        --green: #4c9362;
+        --pink: #e988a6;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        padding: 48px 24px;
+        display: grid;
+        place-items: center;
+        color: var(--text);
+        background: #f8ede2;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+          "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      }
+
+      main {
+        width: min(760px, 100%);
+        padding: 40px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 28px;
+      }
+
+      h1 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 24px;
+        line-height: 1.35;
+      }
+
+      .intro {
+        max-width: 600px;
+        margin: 10px 0 32px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .preview-row {
+        display: flex;
+        align-items: center;
+        gap: 56px;
+        flex-wrap: wrap;
+      }
+
+      .preview {
+        display: grid;
+        justify-items: center;
+        gap: 14px;
+      }
+
+      .icon {
+        --scale: 1;
+        position: relative;
+        width: calc(144px * var(--scale));
+        height: calc(144px * var(--scale));
+        overflow: hidden;
+        flex: none;
+        background: var(--page);
+        border-radius: calc(32px * var(--scale));
+      }
+
+      .icon--large {
+        --scale: 2;
+        box-shadow: 0 20px 48px rgb(48 35 29 / 12%);
+      }
+
+      .dot {
+        position: absolute;
+        width: calc(26px * var(--scale));
+        height: calc(26px * var(--scale));
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      /*
+       * The centers below sit on an invisible 3 × 3 grid:
+       * x/y = 36, 72, or 108px. Empty cells are intentional.
+       */
+      .dot--1 {
+        left: 25%;
+        top: 25%;
+        background: var(--coral);
+      }
+
+      .dot--2 {
+        left: 50%;
+        top: 25%;
+        background: var(--pink);
+      }
+
+      .dot--3 {
+        left: 25%;
+        top: 50%;
+        background: var(--mango);
+      }
+
+      .dot--4 {
+        left: 75%;
+        top: 50%;
+        background: var(--green);
+      }
+
+      .dot--5 {
+        left: 50%;
+        top: 75%;
+        background: var(--lemon);
+      }
+
+      .dot--6 {
+        left: 75%;
+        top: 75%;
+        background: var(--coral);
+      }
+
+      .grid-guides {
+        position: absolute;
+        inset: 12.5%;
+        display: none;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        pointer-events: none;
+      }
+
+      .grid-guides span {
+        border: max(1px, calc(1px * var(--scale))) dashed rgb(48 35 29 / 22%);
+      }
+
+      body.show-grid .grid-guides {
+        display: grid;
+      }
+
+      .size-label {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .controls {
+        margin-top: 32px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      .toggle input {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--coral);
+      }
+
+      .palette {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .swatch {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+      }
+
+      .swatch--coral {
+        background: var(--coral);
+      }
+
+      .swatch--mango {
+        background: var(--mango);
+      }
+
+      .swatch--lemon {
+        background: var(--lemon);
+      }
+
+      .swatch--green {
+        background: var(--green);
+      }
+
+      .swatch--pink {
+        background: var(--pink);
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 20px;
+        }
+
+        main {
+          padding: 28px 20px;
+        }
+
+        .preview-row {
+          gap: 36px;
+        }
+
+        .icon--large {
+          --scale: 1.5;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Vibe Check-in · 圆点轨迹概念</h1>
+      <p class="intro">
+        六个等大的多巴胺色圆点落在一个不可见的 3 × 3 网格上。三处留白打破完整九宫格，
+        让图形更像逐渐积累的学习轨迹，而不是功能菜单。
+      </p>
+
+      <div class="preview-row">
+        <div class="preview">
+          <div class="icon" aria-label="144 像素图标原尺寸预览">
+            <span class="dot dot--1"></span>
+            <span class="dot dot--2"></span>
+            <span class="dot dot--3"></span>
+            <span class="dot dot--4"></span>
+            <span class="dot dot--5"></span>
+            <span class="dot dot--6"></span>
+            <span class="grid-guides" aria-hidden="true">
+              <span></span><span></span><span></span>
+              <span></span><span></span><span></span>
+              <span></span><span></span><span></span>
+            </span>
+          </div>
+          <span class="size-label">144 × 144 px · 实际尺寸</span>
+        </div>
+
+        <div class="preview">
+          <div class="icon icon--large" aria-label="两倍放大预览">
+            <span class="dot dot--1"></span>
+            <span class="dot dot--2"></span>
+            <span class="dot dot--3"></span>
+            <span class="dot dot--4"></span>
+            <span class="dot dot--5"></span>
+            <span class="dot dot--6"></span>
+            <span class="grid-guides" aria-hidden="true">
+              <span></span><span></span><span></span>
+              <span></span><span></span><span></span>
+              <span></span><span></span><span></span>
+            </span>
+          </div>
+          <span class="size-label">2× 放大检查</span>
+        </div>
+      </div>
+
+      <div class="controls">
+        <label class="toggle">
+          <input id="grid-toggle" type="checkbox" />
+          显示辅助网格（不会出现在最终图标中）
+        </label>
+        <div class="palette" aria-label="项目现有多巴胺色板">
+          <span class="swatch swatch--coral" title="珊瑚 #E96B52"></span>
+          <span class="swatch swatch--mango" title="芒果黄 #F2A53B"></span>
+          <span class="swatch swatch--lemon" title="柠檬黄 #F5D258"></span>
+          <span class="swatch swatch--green" title="草绿 #4C9362"></span>
+          <span class="swatch swatch--pink" title="莓粉 #E988A6"></span>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const gridToggle = document.querySelector("#grid-toggle");
+
+      gridToggle.addEventListener("change", () => {
+        document.body.classList.toggle("show-grid", gridToggle.checked);
+      });
+    </script>
+  </body>
+</html>

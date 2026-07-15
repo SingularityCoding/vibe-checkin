@@ -29,9 +29,9 @@
 
 ## 品牌头像
 
-品牌头像文件位于 [`assets/brand/vibe-checkin-avatar.png`](../assets/brand/vibe-checkin-avatar.png)。
+品牌头像文件位于 [`assets/brand.png`](../assets/brand.png)。
 
 - PNG，144 × 144 px。
 - 文件小于 2 MB。
 - 无文字、字母、水印或人物。
-- 主体为展开的学习笔记和三个相连的上升节点，在小尺寸下仍保持清晰。
+- 主体为暖白背景上的六个多巴胺色圆点；圆点排列在不可见的 3 × 3 网格中，以留白表现持续积累的学习轨迹。
