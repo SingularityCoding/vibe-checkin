@@ -1,5 +1,3 @@
-/// <reference path="./types/index.d.ts" />
-
 type DevFixtureTools = import('../miniprogram/fixtures/seed').DevFixtureTools
 type CloudDiagnostics = import('../miniprogram/cloud/connection').CloudDiagnostics
 type CloudInitializationStatus =

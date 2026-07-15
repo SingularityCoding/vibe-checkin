@@ -4,7 +4,6 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "lib": ["ES2020", "DOM"],
-    "typeRoots": ["./typings", "./node_modules", "./node_modules/@types"],
     "skipLibCheck": true
   },
   "include": ["./tests/**/*.ts"],

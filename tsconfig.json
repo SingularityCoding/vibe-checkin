@@ -14,14 +14,10 @@
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "skipLibCheck": true,
     "strict": true,
     "strictPropertyInitialization": true,
     "lib": ["ES2020"],
-    "types": ["miniprogram-api-typings"],
-    "typeRoots": [
-      "./typings"
-    ]
+    "types": ["miniprogram-api-typings"]
   },
   "include": [
     "./miniprogram/**/*.ts",
@@ -29,6 +25,7 @@
   ],
   "exclude": [
     "node_modules",
+    "miniprogram/miniprogram_npm",
     "tests"
   ]
 }

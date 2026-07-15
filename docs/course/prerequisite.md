@@ -69,7 +69,7 @@ gh auth setup-git
 
 ![微信开发者工具官方下载页。请下载“稳定版 Stable Build”，并按自己的操作系统选择下载项。](../../assets/screenshots/devtools-download-page.png){ width=42% }
 
-![首次打开微信开发者工具时，使用手机微信扫描二维码登录。](../../assets/screenshots/devtools-login-qr.png){ width=32% }
+首次打开微信开发者工具时，请使用自己的手机微信扫描当次生成的登录二维码。二维码属于临时登录凭据，不要截图分享或提交到 Git 仓库。
 
 ![登录成功后的微信开发者工具首页。课前不需要自行创建项目。](../../assets/screenshots/devtools-project-list.png){ width=56% }
 
