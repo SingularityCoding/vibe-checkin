@@ -41,6 +41,7 @@ describe('repository composition', () => {
     expect(getCloudRepositories().preference).toBe(getLocalRepositories().preference)
 
     useCloudRepositories()
-    await expect(recordRepository.list()).rejects.toThrow('not implemented')
+    // Vitest 环境没有 wx.cloud：Cloud 实现按 REQ-012 以 "unavailable" 拒绝。
+    await expect(recordRepository.list()).rejects.toThrow('unavailable')
   })
 })

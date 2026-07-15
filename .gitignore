@@ -21,6 +21,8 @@ yarn-error.log*
 pnpm-debug.log*
 
 # Operating-system and editor files
+.claude/settings.local.json
+.claude/settings.json
 .DS_Store
 Thumbs.db
 .idea/
