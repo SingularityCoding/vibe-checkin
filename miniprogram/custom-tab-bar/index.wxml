@@ -1,0 +1,12 @@
+<t-tab-bar
+  value="{{selected}}"
+  fixed="{{true}}"
+  bordered="{{true}}"
+  safe-area-inset-bottom="{{true}}"
+  bind:change="onChange"
+  t-class="vc-tab-bar"
+>
+  <t-tab-bar-item value="today" icon="book-open">今天</t-tab-bar-item>
+  <t-tab-bar-item value="log" icon="file">学习日志</t-tab-bar-item>
+  <t-tab-bar-item value="stats" icon="chart-bar">学习统计</t-tab-bar-item>
+</t-tab-bar>

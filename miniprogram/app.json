@@ -1,13 +1,40 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/logs/logs"
+    "pages/today/index",
+    "pages/log/index",
+    "pages/stats/index",
+    "pages/record-edit/index",
+    "pages/record-detail/index",
+    "pages/settings/index"
   ],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "Weixin",
-    "navigationBarBackgroundColor": "#ffffff"
+    "navigationBarTitleText": "Vibe学习记",
+    "navigationBarBackgroundColor": "#FFF8F0",
+    "backgroundColor": "#FFF8F0",
+    "backgroundTextStyle": "dark"
   },
+  "tabBar": {
+    "custom": true,
+    "color": "#817169",
+    "selectedColor": "#E96B52",
+    "backgroundColor": "#FFFDF9",
+    "list": [
+      {
+        "pagePath": "pages/today/index",
+        "text": "今天"
+      },
+      {
+        "pagePath": "pages/log/index",
+        "text": "学习日志"
+      },
+      {
+        "pagePath": "pages/stats/index",
+        "text": "学习统计"
+      }
+    ]
+  },
+  "darkmode": true,
   "style": "v2",
   "componentFramework": "glass-easel",
   "lazyCodeLoading": "requiredComponents"

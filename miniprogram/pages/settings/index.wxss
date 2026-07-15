@@ -1,0 +1,7 @@
+.vc-section--first {
+  margin-top: 0;
+}
+
+vc-status-note {
+  margin-top: 16rpx;
+}

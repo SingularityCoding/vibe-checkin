@@ -1,0 +1,30 @@
+<view class="vc-page">
+  <view class="vc-page__header">
+    <view>
+      <view class="vc-page__title">设置</view>
+      <view class="vc-page__subtitle">管理学习偏好、同步状态与数据。</view>
+    </view>
+  </view>
+
+  <view class="vc-section vc-section--first">
+    <view class="vc-section__heading">学习偏好</view>
+    <t-cell-group>
+      <t-cell title="默认学习时长" note="30 分钟" arrow="{{true}}" />
+    </t-cell-group>
+  </view>
+
+  <view class="vc-section">
+    <view class="vc-section__heading">数据与同步</view>
+    <t-cell-group>
+      <t-cell title="云端同步" note="状态将在记录功能完成后显示" />
+    </t-cell-group>
+    <vc-status-note state="neutral" text="学习记录会使用微信身份隔离并同步。" />
+  </view>
+
+  <view class="vc-section">
+    <view class="vc-section__heading">关于</view>
+    <t-cell-group>
+      <t-cell title="Vibe学习记" note="课程 Starter Kit" />
+    </t-cell-group>
+  </view>
+</view>

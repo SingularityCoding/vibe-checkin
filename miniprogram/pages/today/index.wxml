@@ -1,0 +1,58 @@
+<view class="vc-page">
+  <view class="vc-page__header">
+    <view>
+      <view class="vc-page__title">今天</view>
+      <view class="vc-page__subtitle">{{todayLabel}}</view>
+    </view>
+    <view class="vc-icon-button" bindtap="openSettings" aria-label="打开设置">
+      <t-icon name="setting-1" size="36rpx" />
+    </view>
+  </view>
+
+  <vc-card tone="hero">
+    <view class="today-summary">
+      <view class="today-summary__item">
+        <text class="today-summary__value">0</text>
+        <text class="today-summary__label">当前连续</text>
+      </view>
+      <view class="today-summary__item">
+        <text class="today-summary__value">0</text>
+        <text class="today-summary__label">今日分钟</text>
+      </view>
+      <view class="today-summary__item">
+        <text class="today-summary__value">0</text>
+        <text class="today-summary__label">今日记录</text>
+      </view>
+    </view>
+    <view class="today-summary__trail" aria-hidden="true">
+      <view class="today-summary__dot today-summary__dot--coral"></view>
+      <view class="today-summary__dot today-summary__dot--mango"></view>
+      <view class="today-summary__dot today-summary__dot--green"></view>
+    </view>
+  </vc-card>
+
+  <view class="vc-section">
+    <view class="vc-section__heading">
+      <text>最近 7 天</text>
+      <text class="vc-meta">从今天开始</text>
+    </view>
+    <view class="vc-week">
+      <view wx:for="{{week}}" wx:key="date" class="vc-week__item {{item.isToday ? 'vc-week__item--today' : ''}}">
+        <text>{{item.label}}</text>
+        <text class="vc-week__date">{{item.date}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="vc-section">
+    <view class="vc-section__heading">今日学习</view>
+    <vc-card>
+      <vc-empty-state
+        title="今天还没有开始学习"
+        description="记录一段学习，轨迹会从今天开始延伸。"
+        action-text="记录第一次学习"
+        bind:action="openRecordEditor"
+      />
+    </vc-card>
+  </view>
+</view>

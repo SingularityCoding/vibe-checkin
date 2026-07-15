@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "vc-card": "/components/vc-card/index",
+    "vc-empty-state": "/components/vc-empty-state/index"
+  }
+}

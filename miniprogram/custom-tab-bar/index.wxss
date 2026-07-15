@@ -1,0 +1,4 @@
+.vc-tab-bar {
+  background: var(--vc-color-surface);
+  color: var(--vc-color-text-secondary);
+}
