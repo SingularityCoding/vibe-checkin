@@ -12,3 +12,8 @@
 .status-note {
   margin-top: 16rpx;
 }
+
+.duration-stepper {
+  display: flex;
+  align-items: center;
+}

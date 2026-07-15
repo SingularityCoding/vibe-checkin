@@ -2,13 +2,18 @@
   display: block;
 }
 
-.tags {
+.tag-picker__selected,
+.tag-picker__suggestions {
   display: flex;
   flex-wrap: wrap;
   gap: 12rpx;
 }
 
-.placeholder {
+.tag-picker__suggestions {
+  margin-top: 16rpx;
+}
+
+.tag-picker__placeholder {
   display: inline-flex;
   min-height: 64rpx;
   align-items: center;
@@ -17,4 +22,22 @@
   border-radius: var(--vc-radius-sm);
   color: var(--vc-color-text-secondary);
   font-size: 26rpx;
+}
+
+.tag-picker__input {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 20rpx;
+}
+
+.tag-picker__input-field {
+  flex: 1;
+  min-width: 0;
+}
+
+.tag-picker__hint {
+  margin-top: 12rpx;
+  color: var(--vc-color-text-secondary);
+  font-size: 22rpx;
 }

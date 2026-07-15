@@ -34,9 +34,20 @@
   margin-top: 16rpx;
 }
 
+.record__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+  margin-top: 12rpx;
+}
+
 .record__content {
+  display: -webkit-box;
   margin-top: 10rpx;
+  overflow: hidden;
   color: var(--vc-color-ink);
   font-size: 28rpx;
   line-height: 42rpx;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }

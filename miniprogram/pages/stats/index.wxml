@@ -12,7 +12,9 @@
     bind:retry="retryLoad"
     bind:create-record="openRecordEditor"
   />
-  <stats-calendar model="{{calendar}}" bind:select-date="openLogByDate" />
-  <stats-seven-day-trend items="{{trend}}" />
-  <stats-tag-rank items="{{tagRank}}" bind:select-tag="openLogByTag" />
+  <block wx:if="{{overview.hasRecords}}">
+    <stats-calendar model="{{calendar}}" bind:select-date="openLogByDate" />
+    <stats-seven-day-trend items="{{trend}}" />
+    <stats-tag-rank items="{{tagRank}}" bind:select-tag="openLogByTag" />
+  </block>
 </view>

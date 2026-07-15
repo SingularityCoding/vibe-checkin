@@ -20,7 +20,7 @@
 <view wx:else>
   <view class="actions"><t-button class="detail-control" variant="text" bind:tap="onEditRecord">编辑</t-button></view>
   <vc-card>
-    <view class="meta">{{model.dateLabel}} · {{model.timeLabel}} · {{model.durationLabel}}</view>
+    <view class="meta">{{model.dateLabel}} {{model.weekdayLabel}} · {{model.timeLabel}} · {{model.durationLabel}}</view>
     <view class="tags" wx:if="{{model.tags.length}}">
       <t-tag wx:for="{{model.tags}}" wx:key="*this" variant="light">{{item}}</t-tag>
     </view>

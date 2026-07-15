@@ -112,6 +112,10 @@ Page({
     }
   },
   async submitRecord(event: WechatMiniprogram.CustomEvent<{ draft: RecordInput }>) {
+    if (this.data.saving) {
+      return
+    }
+
     const validation = validateRecordDraft(event.detail.draft)
 
     if (!validation.isValid) {

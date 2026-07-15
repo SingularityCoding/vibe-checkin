@@ -20,6 +20,7 @@
 <view wx:else>
   <vc-card tone="hero">
     <view class="streak">当前连续 {{model.currentStreak}} 天</view>
+    <view class="streak__message">继续保持自己的学习节奏</view>
     <view class="streak__secondary">最长连续 {{model.longestStreak}} 天</view>
   </vc-card>
   <view class="totals">
