@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Starter Kit Contract
+    url: https://github.com/SingularityCoding/vibe-checkin/blob/main/docs/starter-kit-contract.md
+    about: 公共接口、目录所有权和测试契约在这里查
+  - name: Spec 分配矩阵
+    url: https://github.com/SingularityCoding/vibe-checkin/blob/main/docs/specs/README.md
+    about: 16 个功能的分工、边界与验收入口在这里查
