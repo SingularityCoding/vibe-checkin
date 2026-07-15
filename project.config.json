@@ -108,6 +108,12 @@
           "pathName": "pages/settings/index",
           "query": "fixture=history",
           "scene": 1001
+        },
+        {
+          "name": "测试场景 · 云端数据源",
+          "pathName": "pages/settings/index",
+          "query": "dataSource=cloud",
+          "scene": 1001
         }
       ]
     }
