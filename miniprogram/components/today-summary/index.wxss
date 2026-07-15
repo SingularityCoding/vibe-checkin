@@ -19,11 +19,25 @@
   border-left: 1rpx solid rgba(255, 242, 232, 0.24);
 }
 
+.summary__metric {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 8rpx;
+}
+
 .summary__value {
   color: #fff2e8;
   font-size: 56rpx;
   font-weight: 700;
   line-height: 68rpx;
+}
+
+.summary__unit {
+  color: rgba(255, 242, 232, 0.88);
+  font-size: 24rpx;
+  font-weight: 600;
+  line-height: 32rpx;
 }
 
 .summary__label {
@@ -74,4 +88,8 @@
   color: var(--vc-color-text-secondary);
   font-size: 26rpx;
   line-height: 40rpx;
+}
+
+.action__title + t-button {
+  margin-top: 28rpx;
 }

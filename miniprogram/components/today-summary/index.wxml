@@ -1,15 +1,24 @@
 <vc-card tone="hero">
   <view class="summary">
     <view class="summary__item">
-      <text class="summary__value">{{model.currentStreak}}</text>
+      <view class="summary__metric">
+        <text class="summary__value">{{model.currentStreak}}</text>
+        <text class="summary__unit">天</text>
+      </view>
       <text class="summary__label">当前连续</text>
     </view>
     <view class="summary__item">
-      <text class="summary__value">{{model.todayMinutes}}</text>
+      <view class="summary__metric">
+        <text class="summary__value">{{model.todayMinutes}}</text>
+        <text class="summary__unit">分钟</text>
+      </view>
       <text class="summary__label">今日分钟</text>
     </view>
     <view class="summary__item">
-      <text class="summary__value">{{model.todayRecordCount}}</text>
+      <view class="summary__metric">
+        <text class="summary__value">{{model.todayRecordCount}}</text>
+        <text class="summary__unit">条</text>
+      </view>
       <text class="summary__label">今日记录</text>
     </view>
   </view>
@@ -23,7 +32,9 @@
 <view class="action" wx:if="{{model.actionTitle}}">
   <vc-card>
     <view class="action__title">{{model.actionTitle}}</view>
-    <view class="action__description">{{model.actionDescription}}</view>
+    <view wx:if="{{model.actionDescription}}" class="action__description">
+      {{model.actionDescription}}
+    </view>
     <t-button wx:if="{{model.actionText}}" theme="primary" block="{{true}}" bind:tap="onCreateRecord">
       {{model.actionText}}
     </t-button>
