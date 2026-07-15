@@ -47,6 +47,7 @@ local / cloud adapters（本地开发实现与 CloudBase 实现）
 - Feature 可以依赖 `domain/` 和 `shared/`，不能依赖 Page 或其他 Spec 独占的 Component。
 - Page 只负责生命周期、加载状态、调用 Repository、组合 Feature 结果和导航。
 - Repository 是唯一的数据读写入口。Page、Component 和 Feature 都不能直接调用 `wx.getStorageSync` 或 `wx.cloud.database()`。
+- `cloud/connection.ts` 只允许执行不返回业务内容的 P0 连接诊断；它不是业务数据访问入口。
 - 同一 Phase 的 Spec 不得导入另一项 Spec 的独占目录。
 
 ## 4. Starter Kit 目标目录
@@ -57,6 +58,8 @@ miniprogram/
 ├─ app.json
 ├─ config/
 │  └─ cloud.ts
+├─ cloud/
+│  └─ connection.ts
 ├─ domain/
 │  ├─ learning-record.ts
 │  ├─ learning-preference.ts
@@ -107,6 +110,10 @@ miniprogram/
    ├─ record-edit/
    ├─ record-detail/
    └─ settings/
+
+cloudbase/
+└─ rules/
+   └─ learning_records.json
 ```
 
 `features/` 和对应 Component 在 P0 中已经存在，并导出满足契约的安全默认实现。默认实现可以暂时返回空视图模型或不渲染 Phase 2 区块，但不能抛错、显示假数据或要求另一项 Spec 先完成。
@@ -190,6 +197,8 @@ P0 的 `repositories/record.ts` 是唯一组合入口。页面只从这里取得
 P1-08 完成 `list`、`get`、`create`、`update`、`remove`、`reloadFromCloud` 和同步状态。`removeAllMine` 的 CloudBase 分批删除由 P2-08 实现；在此之前该方法提供明确的“不支持”失败，不会被任何可见入口调用。
 
 CloudBase collection 中的 `_id` 和 `_openid` 属于存储层字段，映射后再交给页面。`_openid` 不进入 `LearningRecord`，也不能显示、打印或提交到仓库。
+
+P0 已固定 CloudBase 环境、`learning_records` collection、安全规则来源、schema version 和 Cloud Document 映射。安全规则要求查询显式包含 `_openid: '{openid}'`。`{openid}` 是 CloudBase 运行时占位符，不是真实 OpenID。具体控制台操作与连接检查见 [CloudBase P0 配置](./cloudbase-setup.md)。
 
 ## 6. 时间与统计契约
 
@@ -411,7 +420,7 @@ await getApp().devFixtures.reset()
 - Spec 明确分配的 `components/<name>/`。
 - Spec 明确分配的 `features/<name>/`。
 - 与该 Feature 一一对应的 `tests/features/<name>/`。
-- P1-08 额外拥有 `repositories/cloud-record/`。
+- P1-08 额外拥有 `repositories/cloud-record/` 中的 Repository 实现文件；P0 的 `document.ts` 映射契约默认不修改。
 - P2-08 额外完成 `repositories/cloud-record/` 中预留的 `removeAllMine` 方法。
 
 ### 学生默认不能修改
@@ -433,6 +442,7 @@ await getApp().devFixtures.reset()
 - 本文列出的领域类型、Repository、Clock、导航函数和 Feature 函数均已存在并通过类型检查。
 - 所有功能组件插槽已在 Page 中接好；学生实现独占目录后不需要修改 Page。
 - Local、In-memory Repository 与四个 Fixture 场景可用。
+- CloudBase 只初始化一次，环境配置、Document 映射和只读连接诊断均已存在。
 - `npm run check` 通过，微信开发者工具构建成功。
 - 每个 Phase 任务都能在自己的分支上通过 Fixture 独立演示。
 - CloudBase 环境、collection 和权限规则由老师完成并验证；仓库中没有密钥、个人 OpenID、真实记录或私有配置。
