@@ -12,6 +12,10 @@ Component({
       type: Array,
       value: [],
     },
+    hasActiveFilters: {
+      type: Boolean,
+      value: false,
+    },
   },
   methods: {
     onRetry() {
