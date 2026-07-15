@@ -1,0 +1,36 @@
+<view wx:if="{{loadState === 'loading'}}" class="loading">
+  <t-loading theme="circular" size="48rpx" text="正在读取学习日志" />
+</view>
+
+<view wx:elif="{{loadState === 'error'}}">
+  <vc-status-note state="error" text="学习日志读取失败，请稍后重试。" />
+  <t-button variant="outline" block="{{true}}" bind:tap="onRetry">重新加载</t-button>
+</view>
+
+<vc-card wx:elif="{{!groups.length}}">
+  <vc-empty-state
+    icon="file"
+    title="还没有学习记录"
+    description="完成第一次记录后，学习内容会按日期出现在这里。"
+    action-text="记录第一次学习"
+    bind:action="onCreateRecord"
+  />
+</vc-card>
+
+<view wx:else>
+  <view class="summary">全部记录 · {{summary.checkInDays}} 个打卡日 · {{summary.totalMinutes}} 分钟</view>
+  <view wx:for="{{groups}}" wx:key="date" class="group">
+    <view class="group__heading">{{item.dateLabel}} · {{item.totalMinutes}} 分钟 · {{item.records.length}} 条</view>
+    <vc-card
+      wx:for="{{item.records}}"
+      wx:for-item="record"
+      wx:key="id"
+      vc-class="record"
+      data-id="{{record.id}}"
+      bind:tap="onOpenRecord"
+    >
+      <view class="record__meta">{{record.time}} · {{record.duration}} 分钟</view>
+      <view class="record__content">{{record.content}}</view>
+    </vc-card>
+  </view>
+</view>

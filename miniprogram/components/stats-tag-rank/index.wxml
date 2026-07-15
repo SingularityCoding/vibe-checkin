@@ -1,0 +1,1 @@
+<view wx:if="{{items.length}}" class="slot"></view>

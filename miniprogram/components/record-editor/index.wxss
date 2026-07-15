@@ -1,0 +1,24 @@
+:host {
+  display: block;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 36rpx;
+}
+
+.field__label {
+  display: block;
+  margin-bottom: 12rpx;
+  color: var(--vc-color-ink);
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.field__hint {
+  margin-top: 10rpx;
+  color: var(--vc-color-text-secondary);
+  font-size: 22rpx;
+  text-align: right;
+}

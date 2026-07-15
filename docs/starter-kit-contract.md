@@ -220,7 +220,7 @@ P0 提供：
 | P1-01 | `buildTodaySummary(records, clock)` | `model` | `create-record` |
 | P1-02 | `createInitialDraft(preference)`、`validateRecordDraft(draft)` | `mode`、`initialDraft`、`saving`、`saveError` | `submit`、`dirty-change` |
 | P1-03 | `collectSuggestedTags(records)`、`normalizeSelectedTags(tags)` | `selectedTags`、`suggestedTags` | `change`，detail 为完整标签数组 |
-| P1-04 | `buildRecordDetail(record)` | `loadState`、`model`、`errorMessage` | `retry`、`edit-record` |
+| P1-04 | `buildRecordDetail(record)` | `loadState`、`model`、`errorMessage` | `retry`、`edit-record`、`return-to-log` |
 | P1-05 | `buildLogTimeline(records)` | `loadState`、`summary`、`groups` | `retry`、`open-record`、`create-record` |
 | P1-06 | `buildStatisticsOverview(records, clock)` | `loadState`、`model` | `retry`、`create-record` |
 | P1-07 | `validateDefaultDuration(value)` | `preference`、`saving`、`saveError`；About 接收 `version` | `save-preference`、`open-privacy` |

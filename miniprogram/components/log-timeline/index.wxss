@@ -1,0 +1,42 @@
+:host {
+  display: block;
+}
+
+.loading {
+  display: flex;
+  min-height: 240rpx;
+  align-items: center;
+  justify-content: center;
+}
+
+t-button {
+  margin-top: 20rpx;
+}
+
+.summary,
+.record__meta {
+  color: var(--vc-color-text-secondary);
+  font-size: 24rpx;
+}
+
+.group {
+  margin-top: 36rpx;
+}
+
+.group__heading {
+  margin-bottom: 16rpx;
+  color: var(--vc-color-ink);
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.record + .record {
+  margin-top: 16rpx;
+}
+
+.record__content {
+  margin-top: 10rpx;
+  color: var(--vc-color-ink);
+  font-size: 28rpx;
+  line-height: 42rpx;
+}

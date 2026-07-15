@@ -1,0 +1,10 @@
+:host {
+  display: block;
+}
+
+.heading {
+  margin-bottom: 20rpx;
+  color: var(--vc-color-ink);
+  font-size: 34rpx;
+  font-weight: 600;
+}

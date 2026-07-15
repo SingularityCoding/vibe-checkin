@@ -1,0 +1,5 @@
+<view class="heading">学习偏好</view>
+<t-cell-group>
+  <t-cell title="默认学习时长" note="{{preference.defaultDuration}} 分钟" />
+</t-cell-group>
+<vc-status-note wx:if="{{saveError}}" state="error" text="{{saveError}}" />

@@ -1,0 +1,24 @@
+<view wx:if="{{week.length}}" class="section">
+  <view class="section__title">最近 7 天</view>
+  <view class="week">
+    <view wx:for="{{week}}" wx:key="date" class="week__item {{item.isToday ? 'week__item--today' : ''}}">
+      <text>{{item.weekday}}</text>
+      <text class="week__date">{{item.dayOfMonth}}</text>
+      <view wx:if="{{item.hasRecord}}" class="week__mark"></view>
+    </view>
+  </view>
+</view>
+
+<view wx:if="{{todayRecords.length}}" class="section">
+  <view class="section__title">今日记录</view>
+  <vc-card
+    wx:for="{{todayRecords}}"
+    wx:key="id"
+    vc-class="record"
+    data-id="{{item.id}}"
+    bind:tap="onOpenRecord"
+  >
+    <view class="record__meta">{{item.time}} · {{item.duration}} 分钟</view>
+    <view class="record__content">{{item.content}}</view>
+  </vc-card>
+</view>

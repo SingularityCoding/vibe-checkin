@@ -1,0 +1,4 @@
+<view class="tags" wx:if="{{selectedTags.length}}">
+  <t-tag wx:for="{{selectedTags}}" wx:key="*this" theme="primary" variant="light">{{item}}</t-tag>
+</view>
+<view wx:else class="placeholder">选择或新建主题</view>

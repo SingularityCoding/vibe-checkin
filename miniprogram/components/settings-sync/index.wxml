@@ -1,0 +1,5 @@
+<view class="heading">数据与同步</view>
+<t-cell-group>
+  <t-cell title="云端同步" arrow="{{true}}" bind:tap="onReload" />
+</t-cell-group>
+<vc-status-note state="{{syncInfo.state}}" text="{{syncInfo.text}}" />

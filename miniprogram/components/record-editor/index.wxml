@@ -1,0 +1,31 @@
+<view class="form">
+  <view class="field">
+    <text class="field__label">学习内容</text>
+    <t-textarea value="{{initialDraft.content}}" placeholder="这段时间学了什么？" maxlength="300" disabled="{{true}}" />
+    <view class="field__hint">0 / 300</view>
+  </view>
+
+  <view class="field">
+    <text class="field__label">学习时长</text>
+    <t-stepper value="{{initialDraft.duration}}" min="5" max="600" step="5" disabled="{{true}}" />
+  </view>
+
+  <view class="field">
+    <text class="field__label">学习主题</text>
+    <tag-picker
+      selected-tags="{{initialDraft.tags}}"
+      suggested-tags="{{suggestedTags}}"
+      bind:change="onTagsChange"
+    />
+  </view>
+
+  <view class="field">
+    <text class="field__label">今日收获（选填）</text>
+    <t-input value="{{initialDraft.takeaway}}" placeholder="写下一个想在下次继续的想法" disabled="{{true}}" />
+  </view>
+
+  <vc-status-note wx:if="{{saveError}}" state="error" text="{{saveError}}" />
+  <t-button theme="primary" block="{{true}}" loading="{{saving}}" disabled="{{true}}">
+    {{saving ? '保存中' : '保存记录'}}
+  </t-button>
+</view>

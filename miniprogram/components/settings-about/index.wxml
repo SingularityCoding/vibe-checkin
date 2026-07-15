@@ -1,0 +1,5 @@
+<view class="heading">关于</view>
+<t-cell-group>
+  <t-cell title="Vibe学习记" note="v{{version}}" />
+  <t-cell title="隐私说明" arrow="{{true}}" bind:tap="onOpenPrivacy" />
+</t-cell-group>

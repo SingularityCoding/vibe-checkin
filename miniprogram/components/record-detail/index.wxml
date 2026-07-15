@@ -1,0 +1,30 @@
+<view wx:if="{{loadState === 'loading'}}" class="loading">
+  <t-loading theme="circular" size="48rpx" text="正在读取学习记录" />
+</view>
+
+<view wx:elif="{{loadState === 'error'}}">
+  <vc-status-note state="error" text="{{errorMessage || '学习记录读取失败'}}" />
+  <t-button variant="outline" block="{{true}}" bind:tap="onRetry">重新加载</t-button>
+</view>
+
+<vc-card wx:elif="{{!model}}">
+  <vc-empty-state
+    icon="book-open"
+    title="这条学习记录已不存在或已被删除"
+    description="你可以返回学习日志查看其他记录。"
+    action-text="返回学习日志"
+    bind:action="onReturnToLog"
+  />
+</vc-card>
+
+<view wx:else>
+  <view class="actions"><t-button variant="text" bind:tap="onEditRecord">编辑</t-button></view>
+  <vc-card>
+    <view class="meta">{{model.dateLabel}} · {{model.timeLabel}} · {{model.durationLabel}}</view>
+    <view class="tags" wx:if="{{model.tags.length}}">
+      <t-tag wx:for="{{model.tags}}" wx:key="*this" variant="light">{{item}}</t-tag>
+    </view>
+    <view class="content">{{model.content}}</view>
+    <view wx:if="{{model.takeaway}}" class="takeaway">{{model.takeaway}}</view>
+  </vc-card>
+</view>

@@ -1,0 +1,48 @@
+:host {
+  display: block;
+}
+
+.loading {
+  display: flex;
+  min-height: 240rpx;
+  align-items: center;
+  justify-content: center;
+}
+
+vc-status-note,
+t-button {
+  margin-top: 20rpx;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16rpx;
+}
+
+.meta {
+  color: var(--vc-color-text-secondary);
+  font-size: 24rpx;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 24rpx;
+}
+
+.content,
+.takeaway {
+  margin-top: 32rpx;
+  color: var(--vc-color-ink);
+  font-size: 30rpx;
+  line-height: 48rpx;
+  white-space: pre-wrap;
+}
+
+.takeaway {
+  padding-top: 24rpx;
+  border-top: 1rpx solid var(--vc-color-border);
+  color: var(--vc-color-text);
+}

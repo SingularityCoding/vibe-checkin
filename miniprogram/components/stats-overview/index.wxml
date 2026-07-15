@@ -1,0 +1,29 @@
+<view wx:if="{{loadState === 'loading'}}" class="loading">
+  <t-loading theme="circular" size="48rpx" text="正在计算学习统计" />
+</view>
+
+<view wx:elif="{{loadState === 'error'}}">
+  <vc-status-note state="error" text="学习统计读取失败，请稍后重试。" />
+  <t-button variant="outline" block="{{true}}" bind:tap="onRetry">重新加载</t-button>
+</view>
+
+<vc-card wx:elif="{{!model.hasRecords}}">
+  <vc-empty-state
+    icon="chart-bar"
+    title="从一次学习开始"
+    description="有学习记录后，这里会展示连续学习、投入趋势和学习主题。"
+    action-text="记录第一次学习"
+    bind:action="onCreateRecord"
+  />
+</vc-card>
+
+<view wx:else>
+  <vc-card tone="hero">
+    <view class="streak">当前连续 {{model.currentStreak}} 天</view>
+    <view class="streak__secondary">最长连续 {{model.longestStreak}} 天</view>
+  </vc-card>
+  <view class="totals">
+    <vc-card vc-class="total">累计打卡日 {{model.checkInDays}} 天</vc-card>
+    <vc-card vc-class="total">累计投入 {{model.totalMinutes}} 分钟</vc-card>
+  </view>
+</view>

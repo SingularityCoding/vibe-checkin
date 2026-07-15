@@ -1,0 +1,1 @@
+<view wx:if="{{dateOptions.length || tagOptions.length}}" class="slot"></view>
