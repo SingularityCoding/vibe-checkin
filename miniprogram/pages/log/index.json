@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "vc-card": "/components/vc-card/index",
-    "vc-empty-state": "/components/vc-empty-state/index"
+    "log-keyword-search": "/components/log-keyword-search/index",
+    "log-structured-filters": "/components/log-structured-filters/index",
+    "log-timeline": "/components/log-timeline/index"
   }
 }

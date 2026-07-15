@@ -1,34 +1,18 @@
 <view class="vc-page">
   <view class="vc-page__header">
     <view>
-      <view class="vc-page__title">记录学习</view>
-      <view class="vc-page__subtitle">今天 · 学习日期创建后不可修改</view>
+      <view class="vc-page__title">{{mode === 'edit' ? '编辑记录' : '记录学习'}}</view>
+      <view class="vc-page__subtitle">{{dateLabel}} · 学习日期不可修改</view>
     </view>
   </view>
 
-  <view class="vc-form">
-    <view class="vc-field">
-      <text class="vc-field__label">学习内容</text>
-      <t-textarea placeholder="这段时间学了什么？" maxlength="300" />
-      <view class="vc-field__hint">0 / 300</view>
-    </view>
-
-    <view class="vc-field">
-      <text class="vc-field__label">学习时长</text>
-      <t-stepper value="30" min="5" max="600" step="5" />
-    </view>
-
-    <view class="vc-field">
-      <text class="vc-field__label">学习主题</text>
-      <view class="vc-tag-placeholder">选择或新建主题</view>
-    </view>
-
-    <view class="vc-field">
-      <text class="vc-field__label">今日收获（选填）</text>
-      <t-input placeholder="写下一个想在下次继续的想法" />
-    </view>
-
-    <t-button theme="primary" block="{{true}}" bind:tap="showStarterKitNotice">保存记录</t-button>
-    <view class="vc-static-note">表单校验、标签选择与保存由后续课堂需求实现。</view>
-  </view>
+  <record-editor
+    mode="{{mode}}"
+    initial-draft="{{initialDraft}}"
+    saving="{{saving}}"
+    save-error="{{saveError}}"
+    bind:submit="submitRecord"
+    bind:dirty-change="onDirtyChange"
+    bind:delete-record="deleteRecord"
+  />
 </view>

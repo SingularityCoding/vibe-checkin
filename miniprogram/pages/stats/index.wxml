@@ -6,13 +6,13 @@
     </view>
   </view>
 
-  <vc-card>
-    <vc-empty-state
-      icon="chart-bar"
-      title="从一次学习开始"
-      description="有学习记录后，这里会展示连续学习、投入趋势和学习主题。"
-      action-text="记录第一次学习"
-      bind:action="openRecordEditor"
-    />
-  </vc-card>
+  <stats-overview
+    load-state="{{loadState}}"
+    model="{{overview}}"
+    bind:retry="retryLoad"
+    bind:create-record="openRecordEditor"
+  />
+  <stats-calendar model="{{calendar}}" bind:select-date="openLogByDate" />
+  <stats-seven-day-trend items="{{trend}}" />
+  <stats-tag-rank items="{{tagRank}}" bind:select-tag="openLogByTag" />
 </view>

@@ -6,25 +6,28 @@
     </view>
   </view>
 
-  <view class="vc-section vc-section--first">
-    <view class="vc-section__heading">学习偏好</view>
-    <t-cell-group>
-      <t-cell title="默认学习时长" note="30 分钟" arrow="{{true}}" />
-    </t-cell-group>
-  </view>
+  <vc-status-note wx:if="{{loadError}}" state="error" text="{{loadError}}" />
 
-  <view class="vc-section">
-    <view class="vc-section__heading">数据与同步</view>
-    <t-cell-group>
-      <t-cell title="云端同步" note="状态将在记录功能完成后显示" />
-    </t-cell-group>
-    <vc-status-note state="neutral" text="学习记录会使用微信身份隔离并同步。" />
+  <view class="settings-section settings-section--first">
+    <settings-preference
+      preference="{{preference}}"
+      saving="{{savingPreference}}"
+      save-error="{{preferenceError}}"
+      bind:save-preference="savePreference"
+    />
   </view>
-
-  <view class="vc-section">
-    <view class="vc-section__heading">关于</view>
-    <t-cell-group>
-      <t-cell title="Vibe学习记" note="课程 Starter Kit" />
-    </t-cell-group>
+  <view class="settings-section">
+    <settings-sync sync-info="{{syncInfo}}" bind:reload="reloadFromCloud" />
+  </view>
+  <view class="settings-section">
+    <settings-danger-zone
+      visible="{{dangerState.visible}}"
+      removing="{{dangerState.removing}}"
+      remove-error="{{dangerState.removeError}}"
+      bind:remove-all="removeAllRecords"
+    />
+  </view>
+  <view class="settings-section">
+    <settings-about version="{{version}}" bind:open-privacy="openPrivacy" />
   </view>
 </view>

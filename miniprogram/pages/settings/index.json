@@ -1,8 +1,10 @@
 {
   "navigationBarTitleText": "设置",
   "usingComponents": {
-    "t-cell": "tdesign-miniprogram/cell/cell",
-    "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
+    "settings-about": "/components/settings-about/index",
+    "settings-danger-zone": "/components/settings-danger-zone/index",
+    "settings-preference": "/components/settings-preference/index",
+    "settings-sync": "/components/settings-sync/index",
     "vc-status-note": "/components/vc-status-note/index"
   }
 }

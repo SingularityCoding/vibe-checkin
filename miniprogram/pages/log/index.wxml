@@ -6,13 +6,26 @@
     </view>
   </view>
 
-  <vc-card>
-    <vc-empty-state
-      icon="file"
-      title="还没有学习记录"
-      description="完成第一次记录后，学习内容会按日期出现在这里。"
-      action-text="记录第一次学习"
-      bind:action="openRecordEditor"
-    />
-  </vc-card>
+  <log-structured-filters
+    date-options="{{filterOptions.dates}}"
+    tag-options="{{filterOptions.tags}}"
+    value="{{structuredFilter}}"
+    bind:change="onStructuredFilterChange"
+    bind:clear="clearStructuredFilter"
+  />
+  <log-keyword-search
+    keyword="{{keyword}}"
+    result-summary="{{resultSummary}}"
+    has-active-filters="{{hasActiveFilters}}"
+    bind:keyword-change="onKeywordChange"
+    bind:clear-all="clearAllFilters"
+  />
+  <log-timeline
+    load-state="{{loadState}}"
+    summary="{{timeline.summary}}"
+    groups="{{timeline.groups}}"
+    bind:retry="retryLoad"
+    bind:create-record="openRecordEditor"
+    bind:open-record="openRecordDetail"
+  />
 </view>

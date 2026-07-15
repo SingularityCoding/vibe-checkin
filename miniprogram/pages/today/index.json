@@ -1,7 +1,10 @@
 {
   "usingComponents": {
+    "t-button": "tdesign-miniprogram/button/button",
     "t-icon": "tdesign-miniprogram/icon/icon",
-    "vc-card": "/components/vc-card/index",
-    "vc-empty-state": "/components/vc-empty-state/index"
+    "t-loading": "tdesign-miniprogram/loading/loading",
+    "today-activity": "/components/today-activity/index",
+    "today-summary": "/components/today-summary/index",
+    "vc-status-note": "/components/vc-status-note/index"
   }
 }

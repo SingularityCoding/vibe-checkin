@@ -2,17 +2,16 @@
   <view class="vc-page__header">
     <view>
       <view class="vc-page__title">学习详情</view>
-      <view class="vc-page__subtitle">完整的学习内容会在这里安静呈现。</view>
+      <view class="vc-page__subtitle">完整回看这一段学习。</view>
     </view>
   </view>
 
-  <vc-card>
-    <vc-empty-state
-      icon="book-open"
-      title="还没有可查看的记录"
-      description="从学习日志选择一条记录后，可以在这里回看完整内容。"
-      action-text="返回学习日志"
-      bind:action="returnToLog"
-    />
-  </vc-card>
+  <record-detail
+    load-state="{{loadState}}"
+    model="{{model}}"
+    error-message="{{errorMessage}}"
+    bind:retry="retryLoad"
+    bind:edit-record="openEditRecord"
+    bind:return-to-log="returnToLog"
+  />
 </view>

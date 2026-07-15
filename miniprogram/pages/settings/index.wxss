@@ -1,7 +1,11 @@
-.vc-section--first {
+.settings-section {
+  margin-top: 48rpx;
+}
+
+.settings-section--first {
   margin-top: 0;
 }
 
 vc-status-note {
-  margin-top: 16rpx;
+  margin-bottom: 24rpx;
 }

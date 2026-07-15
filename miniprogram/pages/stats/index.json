@@ -1,6 +1,8 @@
 {
   "usingComponents": {
-    "vc-card": "/components/vc-card/index",
-    "vc-empty-state": "/components/vc-empty-state/index"
+    "stats-calendar": "/components/stats-calendar/index",
+    "stats-overview": "/components/stats-overview/index",
+    "stats-seven-day-trend": "/components/stats-seven-day-trend/index",
+    "stats-tag-rank": "/components/stats-tag-rank/index"
   }
 }

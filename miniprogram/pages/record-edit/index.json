@@ -1,9 +1,6 @@
 {
   "navigationBarTitleText": "记录学习",
   "usingComponents": {
-    "t-button": "tdesign-miniprogram/button/button",
-    "t-input": "tdesign-miniprogram/input/input",
-    "t-stepper": "tdesign-miniprogram/stepper/stepper",
-    "t-textarea": "tdesign-miniprogram/textarea/textarea"
+    "record-editor": "/components/record-editor/index"
   }
 }
