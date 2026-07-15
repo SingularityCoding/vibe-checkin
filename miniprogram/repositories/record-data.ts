@@ -1,3 +1,12 @@
+import {
+  RECORD_CONTENT_MAX_LENGTH,
+  RECORD_DURATION_MAX,
+  RECORD_DURATION_MIN,
+  RECORD_DURATION_STEP,
+  RECORD_TAG_MAX_COUNT,
+  RECORD_TAG_MAX_LENGTH,
+  RECORD_TAKEAWAY_MAX_LENGTH,
+} from '../domain/constraints'
 import type { LearningRecord, RecordInput } from '../domain/learning-record'
 import type { Clock } from '../shared/date/clock'
 import {
@@ -37,23 +46,54 @@ export const sortRecordsNewestFirst = (
   })
 
 export const assertValidRecordInput = (input: RecordInput): void => {
-  if (typeof input.content !== 'string' || input.content.trim().length === 0) {
-    throw new Error('Learning record content must not be empty')
+  if (typeof input.content !== 'string') {
+    throw new Error('Learning record content must be a string')
   }
 
-  if (!Number.isFinite(input.duration) || input.duration <= 0) {
-    throw new Error('Learning record duration must be a positive number')
+  const content = input.content.trim()
+
+  if (content.length === 0 || content.length > RECORD_CONTENT_MAX_LENGTH) {
+    throw new Error(
+      `Learning record content must be 1-${RECORD_CONTENT_MAX_LENGTH} characters after trimming`,
+    )
   }
 
   if (
-    !Array.isArray(input.tags) ||
-    input.tags.some((tag) => typeof tag !== 'string' || tag.trim().length === 0)
+    !Number.isFinite(input.duration) ||
+    input.duration < RECORD_DURATION_MIN ||
+    input.duration > RECORD_DURATION_MAX ||
+    input.duration % RECORD_DURATION_STEP !== 0
   ) {
-    throw new Error('Learning record tags must be non-empty strings')
+    throw new Error(
+      `Learning record duration must be ${RECORD_DURATION_MIN}-${RECORD_DURATION_MAX} in steps of ${RECORD_DURATION_STEP}`,
+    )
   }
 
-  if (input.takeaway !== undefined && typeof input.takeaway !== 'string') {
-    throw new Error('Learning record takeaway must be a string')
+  if (!Array.isArray(input.tags) || input.tags.length > RECORD_TAG_MAX_COUNT) {
+    throw new Error(`Learning record tags must have at most ${RECORD_TAG_MAX_COUNT} entries`)
+  }
+
+  const trimmedTags = input.tags.map((tag) => (typeof tag === 'string' ? tag.trim() : ''))
+
+  if (trimmedTags.some((tag) => tag.length === 0 || tag.length > RECORD_TAG_MAX_LENGTH)) {
+    throw new Error(
+      `Learning record tags must be 1-${RECORD_TAG_MAX_LENGTH} characters after trimming`,
+    )
+  }
+
+  if (new Set(trimmedTags).size !== trimmedTags.length) {
+    throw new Error('Learning record tags must not contain duplicates')
+  }
+
+  if (input.takeaway !== undefined) {
+    if (
+      typeof input.takeaway !== 'string' ||
+      input.takeaway.trim().length > RECORD_TAKEAWAY_MAX_LENGTH
+    ) {
+      throw new Error(
+        `Learning record takeaway must be at most ${RECORD_TAKEAWAY_MAX_LENGTH} characters after trimming`,
+      )
+    }
   }
 }
 
@@ -64,6 +104,17 @@ export const isLearningRecord = (value: unknown): value is LearningRecord => {
 
   const candidate = value as Partial<LearningRecord>
 
+  const content = typeof candidate.content === 'string' ? candidate.content.trim() : ''
+  const tags = Array.isArray(candidate.tags)
+    ? candidate.tags.map((tag) => (typeof tag === 'string' ? tag.trim() : ''))
+    : null
+  const takeaway =
+    candidate.takeaway === undefined
+      ? undefined
+      : typeof candidate.takeaway === 'string'
+        ? candidate.takeaway.trim()
+        : null
+
   return (
     typeof candidate.id === 'string' &&
     candidate.id.length > 0 &&
@@ -73,16 +124,19 @@ export const isLearningRecord = (value: unknown): value is LearningRecord => {
     Number.isFinite(candidate.createdAt) &&
     typeof candidate.updatedAt === 'number' &&
     Number.isFinite(candidate.updatedAt) &&
-    typeof candidate.content === 'string' &&
-    candidate.content.trim().length > 0 &&
+    content.length > 0 &&
+    content.length <= RECORD_CONTENT_MAX_LENGTH &&
     typeof candidate.duration === 'number' &&
     Number.isFinite(candidate.duration) &&
-    candidate.duration > 0 &&
-    Array.isArray(candidate.tags) &&
-    candidate.tags.every(
-      (tag) => typeof tag === 'string' && tag.trim().length > 0,
-    ) &&
-    (candidate.takeaway === undefined || typeof candidate.takeaway === 'string')
+    candidate.duration >= RECORD_DURATION_MIN &&
+    candidate.duration <= RECORD_DURATION_MAX &&
+    candidate.duration % RECORD_DURATION_STEP === 0 &&
+    tags !== null &&
+    tags.length <= RECORD_TAG_MAX_COUNT &&
+    tags.every((tag) => tag.length > 0 && tag.length <= RECORD_TAG_MAX_LENGTH) &&
+    new Set(tags).size === tags.length &&
+    takeaway !== null &&
+    (takeaway === undefined || takeaway.length <= RECORD_TAKEAWAY_MAX_LENGTH)
   )
 }
 

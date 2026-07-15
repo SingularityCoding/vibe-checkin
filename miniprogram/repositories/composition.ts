@@ -1,3 +1,4 @@
+import { CloudRecordRepository } from './cloud-record/index'
 import { LocalPreferenceRepository } from './local-preference/index'
 import { LocalRecordRepository } from './local-record/index'
 import type { PreferenceRepository } from './preference-repository'
@@ -11,6 +12,13 @@ export type RepositoryComposition = {
 const localRepositories = {
   record: new LocalRecordRepository(),
   preference: new LocalPreferenceRepository(),
+}
+
+// Learning records sync across devices; preferences don't (see Product
+// Design §4.2), so the Cloud composition keeps the Local preference repository.
+const cloudRepositories = {
+  record: new CloudRecordRepository(),
+  preference: localRepositories.preference,
 }
 
 let activeRepositories: RepositoryComposition = { ...localRepositories }
@@ -39,3 +47,13 @@ export const getLocalRepositories = (): {
   record: LocalRecordRepository
   preference: LocalPreferenceRepository
 } => localRepositories
+
+export const useCloudRepositories = (): RepositoryComposition => {
+  activeRepositories = { ...cloudRepositories }
+  return getRepositories()
+}
+
+export const getCloudRepositories = (): {
+  record: CloudRecordRepository
+  preference: LocalPreferenceRepository
+} => cloudRepositories

@@ -26,4 +26,31 @@ describe('LocalPreferenceRepository', () => {
       'positive integer',
     )
   })
+
+  it('rejects a duration above 600 minutes', async () => {
+    const repository = new LocalPreferenceRepository({ storage: new TestStorage() })
+
+    await expect(repository.save({ defaultDuration: 601 })).rejects.toThrow(
+      'positive integer',
+    )
+  })
+
+  it('rejects a duration that is not a multiple of 5', async () => {
+    const repository = new LocalPreferenceRepository({ storage: new TestStorage() })
+
+    await expect(repository.save({ defaultDuration: 32 })).rejects.toThrow(
+      'positive integer',
+    )
+  })
+
+  it('accepts the 5 and 600 minute boundaries', async () => {
+    const repository = new LocalPreferenceRepository({ storage: new TestStorage() })
+
+    await expect(repository.save({ defaultDuration: 5 })).resolves.toEqual({
+      defaultDuration: 5,
+    })
+    await expect(repository.save({ defaultDuration: 600 })).resolves.toEqual({
+      defaultDuration: 600,
+    })
+  })
 })

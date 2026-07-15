@@ -3,6 +3,7 @@ import {
   buildRecordDetail,
   type RecordDetailViewModel,
 } from '../../features/record-detail/index'
+import { isFixtureReady } from '../../fixtures/ready'
 import { recordRepository } from '../../repositories/record'
 import {
   buildEditRecordRoute,
@@ -30,6 +31,15 @@ Page({
   },
   async onShow() {
     syncNavigationTheme()
+
+    if (!(await isFixtureReady())) {
+      this.setData({
+        loadState: 'error',
+        errorMessage: '测试场景准备失败，请检查编译模式后重新编译。',
+      })
+      return
+    }
+
     await this.loadRecord()
   },
   async loadRecord() {

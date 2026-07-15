@@ -1,3 +1,8 @@
+import {
+  RECORD_DURATION_MAX,
+  RECORD_DURATION_MIN,
+  RECORD_DURATION_STEP,
+} from '../../domain/constraints'
 import type { LearningPreference } from '../../domain/learning-preference'
 import type { PreferenceRepository } from '../preference-repository'
 import { WxStorage, type KeyValueStorage } from '../storage'
@@ -27,7 +32,9 @@ const isLearningPreference = (value: unknown): value is LearningPreference => {
   return (
     typeof candidate.defaultDuration === 'number' &&
     Number.isInteger(candidate.defaultDuration) &&
-    candidate.defaultDuration > 0
+    candidate.defaultDuration >= RECORD_DURATION_MIN &&
+    candidate.defaultDuration <= RECORD_DURATION_MAX &&
+    candidate.defaultDuration % RECORD_DURATION_STEP === 0
   )
 }
 
@@ -66,7 +73,9 @@ export class LocalPreferenceRepository implements PreferenceRepository {
 
   async save(input: LearningPreference): Promise<LearningPreference> {
     if (!isLearningPreference(input)) {
-      throw new Error('Default learning duration must be a positive integer')
+      throw new Error(
+        `Default learning duration must be a positive integer between ${RECORD_DURATION_MIN} and ${RECORD_DURATION_MAX} in steps of ${RECORD_DURATION_STEP}`,
+      )
     }
 
     const preference = { ...input }

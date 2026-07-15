@@ -3,6 +3,7 @@ import { buildStatisticsOverview } from '../../features/statistics-overview/inde
 import { buildMonthCalendar } from '../../features/stats-calendar/index'
 import { buildSevenDayTrend } from '../../features/stats-seven-day-trend/index'
 import { buildTagRank } from '../../features/stats-tag-rank/index'
+import { isFixtureReady } from '../../fixtures/ready'
 import { recordRepository } from '../../repositories/record'
 import { SystemClock } from '../../shared/date/clock'
 import {
@@ -24,6 +25,12 @@ Page({
   async onShow() {
     syncNavigationTheme()
     this.getTabBar().init()
+
+    if (!(await isFixtureReady())) {
+      this.setData({ loadState: 'error' })
+      return
+    }
+
     await this.loadRecords()
   },
   async loadRecords() {

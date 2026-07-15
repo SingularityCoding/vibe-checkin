@@ -10,6 +10,7 @@ import {
   type StructuredFilterValue,
 } from '../../features/log-structured-filter/index'
 import { buildLogTimeline } from '../../features/log-timeline/index'
+import { isFixtureReady } from '../../fixtures/ready'
 import { recordRepository } from '../../repositories/record'
 import { SystemClock } from '../../shared/date/clock'
 import { isLocalDate } from '../../shared/date/local-date'
@@ -47,6 +48,12 @@ Page({
   async onShow() {
     syncNavigationTheme()
     this.getTabBar().init()
+
+    if (!(await isFixtureReady())) {
+      this.setData({ loadState: 'error' })
+      return
+    }
+
     await this.loadRecords()
   },
   async loadRecords() {

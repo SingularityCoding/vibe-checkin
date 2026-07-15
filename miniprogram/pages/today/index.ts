@@ -1,6 +1,7 @@
 import type { LoadState } from '../../domain/load-state'
 import { buildTodayActivity } from '../../features/today-activity/index'
 import { buildTodaySummary } from '../../features/today-summary/index'
+import { isFixtureReady } from '../../fixtures/ready'
 import { recordRepository } from '../../repositories/record'
 import { SystemClock } from '../../shared/date/clock'
 import {
@@ -29,9 +30,7 @@ Page({
     this.getTabBar().init()
     this.setData({ todayLabel: formatTodayLabel(clock.now()) })
 
-    try {
-      await getApp<IAppOption>().fixtureReady
-    } catch {
+    if (!(await isFixtureReady())) {
       this.setData({
         loadState: 'error',
         loadError: '测试场景准备失败，请检查编译模式后重新编译。',

@@ -1,10 +1,15 @@
 import { afterEach, describe, expect, it } from 'vitest'
 
+import { CloudRecordRepository } from '../../miniprogram/repositories/cloud-record/index'
 import {
   configureRepositories,
+  getCloudRepositories,
+  getLocalRepositories,
+  useCloudRepositories,
   useLocalRepositories,
 } from '../../miniprogram/repositories/composition'
 import { InMemoryRecordRepository } from '../../miniprogram/repositories/in-memory-record/index'
+import { LocalRecordRepository } from '../../miniprogram/repositories/local-record/index'
 import { recordRepository } from '../../miniprogram/repositories/record'
 import { FixedClock } from '../../miniprogram/shared/date/clock'
 
@@ -28,5 +33,14 @@ describe('repository composition', () => {
 
     expect(created.id).toBe('injected-record')
     await expect(recordRepository.list()).resolves.toEqual([created])
+  })
+
+  it('exposes an explicit switch to Cloud repositories that leaves preferences local', async () => {
+    expect(getLocalRepositories().record).toBeInstanceOf(LocalRecordRepository)
+    expect(getCloudRepositories().record).toBeInstanceOf(CloudRecordRepository)
+    expect(getCloudRepositories().preference).toBe(getLocalRepositories().preference)
+
+    useCloudRepositories()
+    await expect(recordRepository.list()).rejects.toThrow('not implemented')
   })
 })

@@ -9,6 +9,7 @@
   <record-editor
     mode="{{mode}}"
     initial-draft="{{initialDraft}}"
+    suggested-tags="{{suggestedTags}}"
     saving="{{saving}}"
     save-error="{{saveError}}"
     bind:submit="submitRecord"

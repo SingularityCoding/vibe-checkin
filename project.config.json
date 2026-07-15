@@ -72,6 +72,42 @@
           "pathName": "pages/today/index",
           "query": "fixture=reset",
           "scene": 1001
+        },
+        {
+          "name": "测试场景 · 新建记录",
+          "pathName": "pages/record-edit/index",
+          "query": "fixture=history&mode=create&from=today",
+          "scene": 1001
+        },
+        {
+          "name": "测试场景 · 历史编辑",
+          "pathName": "pages/record-edit/index",
+          "query": "fixture=history&mode=edit&id=fixture-history-yesterday&from=detail&returnTo=log",
+          "scene": 1001
+        },
+        {
+          "name": "测试场景 · 学习详情",
+          "pathName": "pages/record-detail/index",
+          "query": "fixture=history&id=fixture-history-yesterday&from=log",
+          "scene": 1001
+        },
+        {
+          "name": "测试场景 · 学习日志",
+          "pathName": "pages/log/index",
+          "query": "fixture=history",
+          "scene": 1001
+        },
+        {
+          "name": "测试场景 · 学习统计",
+          "pathName": "pages/stats/index",
+          "query": "fixture=history",
+          "scene": 1001
+        },
+        {
+          "name": "测试场景 · 设置",
+          "pathName": "pages/settings/index",
+          "query": "fixture=history",
+          "scene": 1001
         }
       ]
     }

@@ -6,6 +6,6 @@
     "lib": ["ES2020", "DOM"],
     "skipLibCheck": true
   },
-  "include": ["./tests/**/*.ts"],
+  "include": ["./tests/**/*.ts", "./typings/**/*.d.ts"],
   "exclude": ["node_modules"]
 }

@@ -4,9 +4,12 @@ import {
   type RecordDraft,
   validateRecordDraft,
 } from '../../features/record-create/index'
+import { collectSuggestedTags } from '../../features/tag-picker/index'
+import { isFixtureReady } from '../../fixtures/ready'
 import { preferenceRepository } from '../../repositories/preference'
 import { recordRepository } from '../../repositories/record'
 import { SystemClock } from '../../shared/date/clock'
+import { parseLocalDate } from '../../shared/date/local-date'
 import {
   getMainTabRoute,
   type MainTab,
@@ -38,7 +41,7 @@ const parseReturnTab = (value: string | undefined): RecordListTab =>
   value === 'today' ? 'today' : 'log'
 
 const formatDateLabel = (date: Date): string =>
-  `今天 · ${date.getFullYear()} 年 ${date.getMonth() + 1} 月 ${date.getDate()} 日`
+  `${date.getFullYear()} 年 ${date.getMonth() + 1} 月 ${date.getDate()} 日`
 
 Page({
   data: {
@@ -46,8 +49,9 @@ Page({
     id: '',
     source: 'today' as MainTab,
     returnTo: 'log' as RecordListTab,
-    dateLabel: formatDateLabel(clock.now()),
+    dateLabel: `今天 · ${formatDateLabel(clock.now())}`,
     initialDraft: emptyDraft,
+    suggestedTags: [] as string[],
     saving: false,
     saveError: '',
   },
@@ -59,8 +63,13 @@ Page({
       id: options.id ?? '',
       source: parseSource(options.from),
       returnTo: parseReturnTab(options.returnTo),
-      dateLabel: formatDateLabel(clock.now()),
+      dateLabel: `今天 · ${formatDateLabel(clock.now())}`,
     })
+
+    if (!(await isFixtureReady())) {
+      this.setData({ saveError: '测试场景准备失败，请检查编译模式后重新编译。' })
+      return
+    }
 
     await this.loadInitialDraft()
   },
@@ -72,15 +81,20 @@ Page({
   },
   async loadInitialDraft() {
     try {
+      const records = await recordRepository.list()
+      const suggestedTags = collectSuggestedTags(records)
+
       if (this.data.mode === 'edit') {
         const record = this.data.id ? await recordRepository.get(this.data.id) : null
 
         if (!record) {
-          this.setData({ saveError: '这条学习记录已不存在或已被删除。' })
+          this.setData({ suggestedTags, saveError: '这条学习记录已不存在或已被删除。' })
           return
         }
 
         this.setData({
+          suggestedTags,
+          dateLabel: formatDateLabel(parseLocalDate(record.date)),
           initialDraft: {
             content: record.content,
             duration: record.duration,
@@ -92,7 +106,7 @@ Page({
       }
 
       const preference = await preferenceRepository.get()
-      this.setData({ initialDraft: createInitialDraft(preference) })
+      this.setData({ suggestedTags, initialDraft: createInitialDraft(preference) })
     } catch {
       this.setData({ saveError: '记录表单初始化失败，请返回后重试。' })
     }

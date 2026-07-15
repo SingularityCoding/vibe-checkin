@@ -2,6 +2,7 @@ import type { LearningPreference } from '../../domain/learning-preference'
 import { createRemoveAllRecordsState } from '../../features/remove-all-records/index'
 import { validateDefaultDuration } from '../../features/preference/index'
 import { formatSyncInfo } from '../../features/sync/index'
+import { isFixtureReady } from '../../fixtures/ready'
 import { preferenceRepository } from '../../repositories/preference'
 import { recordRepository } from '../../repositories/record'
 import { syncNavigationTheme } from '../../utils/theme'
@@ -18,6 +19,12 @@ Page({
   },
   async onShow() {
     syncNavigationTheme()
+
+    if (!(await isFixtureReady())) {
+      this.setData({ loadError: '测试场景准备失败，请检查编译模式后重新编译。' })
+      return
+    }
+
     await this.loadSettings()
   },
   async loadSettings() {

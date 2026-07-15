@@ -1,0 +1,7 @@
+export const RECORD_CONTENT_MAX_LENGTH = 300
+export const RECORD_DURATION_MIN = 5
+export const RECORD_DURATION_MAX = 600
+export const RECORD_DURATION_STEP = 5
+export const RECORD_TAG_MAX_COUNT = 3
+export const RECORD_TAG_MAX_LENGTH = 12
+export const RECORD_TAKEAWAY_MAX_LENGTH = 140

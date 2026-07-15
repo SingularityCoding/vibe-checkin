@@ -8,9 +8,6 @@ const emptyDraft: RecordDraft = {
 }
 
 Component({
-  data: {
-    suggestedTags: [] as string[],
-  },
   properties: {
     mode: {
       type: String,
@@ -19,6 +16,10 @@ Component({
     initialDraft: {
       type: Object,
       value: emptyDraft,
+    },
+    suggestedTags: {
+      type: Array,
+      value: [] as string[],
     },
     saving: {
       type: Boolean,
@@ -36,7 +37,9 @@ Component({
     emitDirtyChange(dirty: boolean) {
       this.triggerEvent('dirty-change', { dirty })
     },
-    onTagsChange(_event: WechatMiniprogram.CustomEvent<{ tags: string[] }>) {},
+    onTagsChange(event: WechatMiniprogram.CustomEvent<{ tags: string[] }>) {
+      this.setData({ 'initialDraft.tags': event.detail.tags })
+    },
     emitDeleteRecord() {
       this.triggerEvent('delete-record')
     },
