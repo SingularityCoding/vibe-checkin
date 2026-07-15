@@ -1,3 +1,73 @@
-.slot {
-  display: block;
+.trend {
+  padding: 16px 0 4px;
+}
+
+.trend__title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--vc-color-text-primary, #1a1a2e);
+  padding: 0 16px 16px;
+}
+
+.trend__chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 180px;
+  padding: 0 12px 8px;
+}
+
+.trend__bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.trend__bar-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--vc-color-text-secondary, #555770);
+  margin-bottom: 4px;
+  line-height: 1;
+}
+
+.trend__bar-col--peak .trend__bar-value {
+  color: var(--vc-color-mango, #f5a623);
+}
+
+.trend__bar-col--today .trend__bar-value {
+  color: var(--vc-color-primary, #e85d75);
+  font-weight: 700;
+}
+
+.trend__bar-col--peak.trend__bar-col--today .trend__bar-value {
+  color: var(--vc-color-mango, #f5a623);
+}
+
+.trend__bar {
+  width: 24px;
+  min-height: 4px;
+  border-radius: 4px 4px 0 0;
+  background: var(--vc-color-primary, #e85d75);
+  transition: height 0.3s ease;
+}
+
+.trend__bar-col--peak .trend__bar {
+  background: var(--vc-color-mango, #f5a623);
+}
+
+.trend__bar-label {
+  font-size: 11px;
+  color: var(--vc-color-text-tertiary, #8e8ea0);
+  margin-top: 6px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.trend__bar-col--today .trend__bar-label {
+  color: var(--vc-color-primary, #e85d75);
+  font-weight: 600;
 }

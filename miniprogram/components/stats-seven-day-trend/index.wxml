@@ -1,1 +1,19 @@
-<view wx:if="{{items.length}}" class="slot"></view>
+<vc-card wx:if="{{chartItems.length}}">
+  <view class="trend">
+    <view class="trend__title">最近 7 天投入趋势</view>
+    <view class="trend__chart">
+      <view
+        wx:for="{{chartItems}}"
+        wx:key="date"
+        class="trend__bar-col {{item.isPeak ? 'trend__bar-col--peak' : ''}} {{item.isToday ? 'trend__bar-col--today' : ''}}"
+      >
+        <view class="trend__bar-value">{{item.minutes}}</view>
+        <view
+          class="trend__bar"
+          style="height: {{item.barHeightPercent}}%"
+        ></view>
+        <view class="trend__bar-label">{{item.label}}</view>
+      </view>
+    </view>
+  </view>
+</vc-card>
