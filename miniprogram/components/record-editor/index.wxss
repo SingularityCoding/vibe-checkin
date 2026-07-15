@@ -22,3 +22,9 @@
   font-size: 22rpx;
   text-align: right;
 }
+
+.field__error {
+  margin-top: 8rpx;
+  color: var(--vc-color-danger);
+  font-size: 22rpx;
+}

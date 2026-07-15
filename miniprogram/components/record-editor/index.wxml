@@ -1,19 +1,32 @@
 <view class="form">
   <view class="field">
     <text class="field__label">学习内容</text>
-    <t-textarea value="{{initialDraft.content}}" placeholder="这段时间学了什么？" maxlength="300" disabled="{{true}}" />
-    <view class="field__hint">0 / 300</view>
+    <t-textarea
+      value="{{draft.content}}"
+      placeholder="这段时间学了什么？"
+      maxlength="{{contentMaxLength}}"
+      bind:change="onContentChange"
+    />
+    <view class="field__hint">{{draft.content.length}} / {{contentMaxLength}}</view>
+    <view wx:if="{{errors.content}}" class="field__error">{{errors.content}}</view>
   </view>
 
   <view class="field">
     <text class="field__label">学习时长</text>
-    <t-stepper value="{{initialDraft.duration}}" min="5" max="600" step="5" disabled="{{true}}" />
+    <t-stepper
+      value="{{draft.duration}}"
+      min="{{durationMin}}"
+      max="{{durationMax}}"
+      step="{{durationStep}}"
+      bind:change="onDurationChange"
+    />
+    <view wx:if="{{errors.duration}}" class="field__error">{{errors.duration}}</view>
   </view>
 
   <view class="field">
     <text class="field__label">学习主题</text>
     <tag-picker
-      selected-tags="{{initialDraft.tags}}"
+      selected-tags="{{draft.tags}}"
       suggested-tags="{{suggestedTags}}"
       bind:change="onTagsChange"
     />
@@ -21,11 +34,23 @@
 
   <view class="field">
     <text class="field__label">今日收获（选填）</text>
-    <t-input value="{{initialDraft.takeaway}}" placeholder="写下一个想在下次继续的想法" disabled="{{true}}" />
+    <t-input
+      value="{{draft.takeaway}}"
+      placeholder="写下一个想在下次继续的想法"
+      bind:change="onTakeawayChange"
+    />
+    <view class="field__hint">{{draft.takeaway.length}} / {{takeawayMaxLength}}</view>
+    <view wx:if="{{errors.takeaway}}" class="field__error">{{errors.takeaway}}</view>
   </view>
 
   <vc-status-note wx:if="{{saveError}}" state="error" text="{{saveError}}" />
-  <t-button theme="primary" block="{{true}}" loading="{{saving}}" disabled="{{true}}">
+  <t-button
+    theme="primary"
+    block="{{true}}"
+    loading="{{saving}}"
+    disabled="{{submitting || saving}}"
+    bind:tap="onSubmit"
+  >
     {{saving ? '保存中' : '保存记录'}}
   </t-button>
 </view>
