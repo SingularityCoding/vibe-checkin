@@ -1,5 +1,6 @@
 @media (prefers-color-scheme: light) {
-  page {
+  page,
+  :host {
     --vc-color-page: #fff8f0;
     --vc-color-surface: #fffdf9;
     --vc-color-surface-muted: #f8ede2;
@@ -23,7 +24,8 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  page {
+  page,
+  :host {
     --vc-color-page: #211a16;
     --vc-color-surface: #2d241f;
     --vc-color-surface-muted: #382d27;
