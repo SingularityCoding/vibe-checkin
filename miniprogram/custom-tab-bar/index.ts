@@ -24,6 +24,9 @@ Component({
     },
   },
   methods: {
+    init() {
+      this.syncSelectedWithRoute()
+    },
     syncSelectedWithRoute() {
       const pages = getCurrentPages()
       const currentPage = pages[pages.length - 1]

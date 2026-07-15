@@ -3,6 +3,7 @@ import { syncNavigationTheme } from '../../utils/theme'
 Page({
   onShow() {
     syncNavigationTheme()
+    this.getTabBar().init()
   },
   methods: {
     openRecordEditor() {

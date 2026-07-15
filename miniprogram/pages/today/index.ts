@@ -31,6 +31,7 @@ Page({
   data: getTodayPresentation(),
   onShow() {
     syncNavigationTheme()
+    this.getTabBar().init()
   },
   methods: {
     openRecordEditor() {
