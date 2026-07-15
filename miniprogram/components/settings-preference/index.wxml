@@ -1,5 +1,28 @@
 <view class="heading">学习偏好</view>
 <t-cell-group>
-  <t-cell title="默认学习时长" note="{{preference.defaultDuration}} 分钟" />
+  <t-cell title="默认学习时长">
+    <view slot="note" class="duration-control">
+      <t-stepper
+        value="{{preference.defaultDuration}}"
+        min="{{durationMin}}"
+        max="{{durationMax}}"
+        step="{{durationStep}}"
+        disabled="{{saving}}"
+        bind:change="onDurationChange"
+      />
+      <text class="duration-unit">分钟</text>
+    </view>
+  </t-cell>
 </t-cell-group>
-<vc-status-note class="status-note" wx:if="{{saveError}}" state="error" text="{{saveError}}" />
+<vc-status-note
+  class="status-note"
+  wx:if="{{saving}}"
+  state="neutral"
+  text="保存中…"
+/>
+<vc-status-note
+  class="status-note"
+  wx:elif="{{saveError}}"
+  state="error"
+  text="{{saveError}}"
+/>
