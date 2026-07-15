@@ -21,7 +21,6 @@
   </view>
   <view class="settings-section">
     <settings-danger-zone
-      visible="{{dangerState.visible}}"
       removing="{{dangerState.removing}}"
       remove-error="{{dangerState.removeError}}"
       bind:remove-all="removeAllRecords"

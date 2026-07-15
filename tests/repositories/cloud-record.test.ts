@@ -14,6 +14,11 @@ type StubDoc = Record<string, unknown> & { _id: string; _openid: string }
 type CloudRecordStubOptions = {
   openid?: string
   readError?: unknown
+  // 按文档 id 注入删除失败：'reject' 让 doc(id).remove() 抛错，
+  // 'no-op' 让它 resolve 但 stats.removed 为 0 且不真正删除。
+  failRemoveIds?: Record<string, 'reject' | 'no-op'>
+  // 删除永远报告成功但从不真正移除文档——专门用来验证批次安全上限。
+  phantomRemove?: boolean
 }
 
 // A minimal in-memory fake of the wx.cloud database surface this repository
@@ -38,21 +43,25 @@ const createCloudRecordStub = (options: CloudRecordStubOptions = {}) => {
   const whereSpy = vi.fn()
   const limitSpy = vi.fn()
 
-  const makeQuery = (condition: Record<string, unknown>): CloudRecordQuery => ({
+  const makeQuery = (
+    condition: Record<string, unknown>,
+    max?: number,
+  ): CloudRecordQuery => ({
     where: (nextCondition) => {
       whereSpy(nextCondition)
-      return makeQuery({ ...condition, ...nextCondition })
+      return makeQuery({ ...condition, ...nextCondition }, max)
     },
-    limit: (max) => {
-      limitSpy(max)
-      return makeQuery(condition)
+    limit: (nextMax) => {
+      limitSpy(nextMax)
+      return makeQuery(condition, nextMax)
     },
     get: async () => {
       if (options.readError) {
         throw options.readError
       }
 
-      return { data: [...docs.values()].filter((doc) => matches(doc, condition)) }
+      const data = [...docs.values()].filter((doc) => matches(doc, condition))
+      return { data: max === undefined ? data : data.slice(0, max) }
     },
   })
 
@@ -70,10 +79,20 @@ const createCloudRecordStub = (options: CloudRecordStubOptions = {}) => {
         return { stats: { updated: 1 } }
       },
       remove: async () => {
+        const failMode = options.failRemoveIds?.[id]
+
+        if (failMode === 'reject') {
+          throw { errCode: 'REMOVE_FAILED', errMsg: `cannot remove ${id}` }
+        }
+
         const existing = docs.get(id)
 
-        if (!existing || existing._openid !== openid) {
+        if (failMode === 'no-op' || !existing || existing._openid !== openid) {
           return { stats: { removed: 0 } }
+        }
+
+        if (options.phantomRemove) {
+          return { stats: { removed: 1 } } // 谎报成功，文档保留
         }
 
         docs.delete(id)
@@ -274,10 +293,159 @@ describe('CloudRecordRepository', () => {
     })
   })
 
-  it('keeps removeAllMine an explicit "not supported yet" rejection', async () => {
-    const stub = createCloudRecordStub()
-    const repository = new CloudRecordRepository({ cloud: stub.cloud, clock })
+  describe('removeAllMine', () => {
+    const seedMineRecords = (
+      stub: ReturnType<typeof createCloudRecordStub>,
+      count: number,
+    ): string[] =>
+      Array.from({ length: count }, (_, index) =>
+        stub.seed(
+          {
+            schemaVersion: 1,
+            date: '2026-07-10',
+            createdAt: index + 1,
+            updatedAt: index + 1,
+            content: `第 ${index + 1} 条学习记录`,
+            duration: 30,
+            tags: [],
+            takeaway: '',
+          },
+          `mine-${index + 1}`,
+        ),
+      )
 
-    await expect(repository.removeAllMine()).rejects.toThrow('not supported')
+    it('AC-007: drains all of my records across multiple batches, always scoping by {openid}', async () => {
+      const stub = createCloudRecordStub({ openid: 'me' })
+      seedMineRecords(stub, 5)
+      const repository = new CloudRecordRepository({
+        cloud: stub.cloud,
+        clock,
+        removeAllBatchSize: 2,
+      })
+
+      await expect(repository.removeAllMine()).resolves.toBeUndefined()
+
+      // 5 条、每批 2 条：2 + 2 + 1 + 空页，共 4 次分页查询，
+      // 每一次查询条件都必须显式限定当前身份。
+      expect(stub.whereSpy).toHaveBeenCalledTimes(4)
+      for (const call of stub.whereSpy.mock.calls) {
+        expect(call[0]).toMatchObject({ _openid: CLOUD_CURRENT_USER_QUERY })
+      }
+      expect(stub.limitSpy).toHaveBeenCalledWith(2)
+
+      await expect(repository.list()).resolves.toEqual([])
+    })
+
+    it('AC-008: never touches documents owned by another identity', async () => {
+      const stub = createCloudRecordStub({ openid: 'me' })
+      seedMineRecords(stub, 3)
+      const otherUsersRecordId = stub.seed(
+        {
+          schemaVersion: 1,
+          date: '2026-07-01',
+          createdAt: 1,
+          updatedAt: 1,
+          content: '别人的学习记录',
+          duration: 30,
+          tags: [],
+          takeaway: '',
+        },
+        'not-mine',
+        'someone-else',
+      )
+      const repository = new CloudRecordRepository({
+        cloud: stub.cloud,
+        clock,
+        removeAllBatchSize: 2,
+      })
+
+      await repository.removeAllMine()
+
+      expect(stub.docs.has(otherUsersRecordId)).toBe(true)
+      expect(stub.docs.size).toBe(1)
+    })
+
+    it('AC-009: a rejecting per-document delete fails the whole call and keeps the record', async () => {
+      const stub = createCloudRecordStub({
+        openid: 'me',
+        failRemoveIds: { 'mine-2': 'reject' },
+      })
+      seedMineRecords(stub, 3)
+      const repository = new CloudRecordRepository({
+        cloud: stub.cloud,
+        clock,
+        removeAllBatchSize: 2,
+      })
+
+      await expect(repository.removeAllMine()).rejects.toThrow(
+        'CloudRecordRepository.removeAllMine',
+      )
+      expect(stub.docs.has('mine-2')).toBe(true)
+    })
+
+    it('AC-010: a delete that resolves with stats.removed === 0 also fails the whole call', async () => {
+      const stub = createCloudRecordStub({
+        openid: 'me',
+        failRemoveIds: { 'mine-2': 'no-op' },
+      })
+      seedMineRecords(stub, 3)
+      const repository = new CloudRecordRepository({
+        cloud: stub.cloud,
+        clock,
+        removeAllBatchSize: 2,
+      })
+
+      await expect(repository.removeAllMine()).rejects.toThrow(
+        'CloudRecordRepository.removeAllMine',
+      )
+      expect(stub.docs.has('mine-2')).toBe(true)
+    })
+
+    it('AC-011: never leaks _openid or document content through a failed batch query', async () => {
+      const stub = createCloudRecordStub({
+        readError: {
+          errCode: 'PERMISSION_DENIED',
+          _openid: 'private-openid-value',
+          data: [{ content: 'private learning record content' }],
+        },
+      })
+      const repository = new CloudRecordRepository({ cloud: stub.cloud, clock })
+
+      try {
+        await repository.removeAllMine()
+        expect.unreachable()
+      } catch (error) {
+        const serialized = JSON.stringify({
+          ...(error as Error),
+          message: (error as Error).message,
+        })
+        expect((error as Error).message).toContain(
+          'CloudRecordRepository.removeAllMine failed to reach CloudBase',
+        )
+        expect(serialized).not.toContain('private-openid-value')
+        expect(serialized).not.toContain('private learning record content')
+        expect(error).not.toHaveProperty('_openid')
+      }
+    })
+
+    it('AC-012: rejects as unavailable when CloudBase is not initialized on this device', async () => {
+      const repository = new CloudRecordRepository({ cloud: null })
+
+      await expect(repository.removeAllMine()).rejects.toThrow('unavailable')
+    })
+
+    it('REQ-010: stops with an error instead of looping forever when the collection never drains', async () => {
+      const stub = createCloudRecordStub({ openid: 'me', phantomRemove: true })
+      seedMineRecords(stub, 1)
+      const repository = new CloudRecordRepository({
+        cloud: stub.cloud,
+        clock,
+        removeAllBatchSize: 1,
+      })
+
+      await expect(repository.removeAllMine()).rejects.toThrow(
+        'CloudRecordRepository.removeAllMine failed to reach CloudBase',
+      )
+    })
   })
 })

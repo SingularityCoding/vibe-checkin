@@ -56,7 +56,16 @@ export type CloudRecordClientPort = {
 export type CloudRecordRepositoryOptions = {
   cloud?: CloudRecordClientPort | null
   clock?: Clock
+  removeAllBatchSize?: number
 }
+
+// CloudBase has no "delete by query" call, so removeAllMine() pages through
+// the current user's records and deletes them one document at a time. The
+// batch size keeps each query under platform limits (tests shrink it to
+// cover the multi-batch loop cheaply); the batch cap is a safety net against
+// an endless loop if the collection somehow never drains.
+const REMOVE_ALL_DEFAULT_BATCH_SIZE = 20
+const REMOVE_ALL_MAX_BATCHES = 1000
 
 // The document's real `id` always comes back from CloudBase's own `_id` once
 // `add()` resolves (see `document.ts`: write payloads never include `_id`).
@@ -116,11 +125,14 @@ const notFound = (id: string): Error =>
 export class CloudRecordRepository implements RecordRepository {
   private readonly cloud: CloudRecordClientPort | null
   private readonly clock: Clock
+  private readonly removeAllBatchSize: number
   private syncInfo: SyncInfo
 
   constructor(options: CloudRecordRepositoryOptions = {}) {
     this.cloud = resolveCloudClient(options.cloud)
     this.clock = options.clock ?? new SystemClock()
+    this.removeAllBatchSize =
+      options.removeAllBatchSize ?? REMOVE_ALL_DEFAULT_BATCH_SIZE
     this.syncInfo = { state: 'idle', message: '尚未从云端同步' }
   }
 
@@ -228,14 +240,36 @@ export class CloudRecordRepository implements RecordRepository {
     }
   }
 
-  removeAllMine(): Promise<void> {
-    // CloudBase batch delete ships with P2-08. Keep this an explicit,
-    // honest rejection so nothing accidentally treats a partial or fake
-    // success as "all of my records are gone".
-    return Promise.reject(
-      new Error(
-        'CloudRecordRepository.removeAllMine is not supported yet. Batched CloudBase delete is the P2-08 deliverable.',
-      ),
+  async removeAllMine(): Promise<void> {
+    const collection = this.collection()
+
+    for (let batch = 0; batch < REMOVE_ALL_MAX_BATCHES; batch += 1) {
+      let page: { data: unknown[] }
+
+      try {
+        page = await collection
+          .where({ _openid: CLOUD_CURRENT_USER_QUERY })
+          .limit(this.removeAllBatchSize)
+          .get()
+      } catch (error) {
+        throw toCloudFailure('removeAllMine', error)
+      }
+
+      if (page.data.length === 0) {
+        return // 当前用户的集合已经清空
+      }
+
+      // 任意一条删除失败都让整个调用 reject：对用户而言"删除全部记录"
+      // 是全有或全无的承诺，报告部分成功比什么都不做更糟。重试时重新
+      // 查询会天然从真正剩下的数据继续，不需要在这里记账进度。
+      await Promise.all(
+        page.data.map((doc) => this.removeOneMineDocument(collection, doc)),
+      )
+    }
+
+    throw toCloudFailure(
+      'removeAllMine',
+      new Error('Exceeded the maximum number of delete batches'),
     )
   }
 
@@ -275,5 +309,40 @@ export class CloudRecordRepository implements RecordRepository {
     return this.cloud
       .database({ env: CLOUD_ENV_ID })
       .collection(CLOUD_COLLECTIONS.learningRecords)
+  }
+
+  private async removeOneMineDocument(
+    collection: CloudRecordCollection,
+    doc: unknown,
+  ): Promise<void> {
+    // 只需要 _id 来定位删除目标；文档内容与 _openid 一概不读取、不转发。
+    const id =
+      typeof doc === 'object' && doc !== null
+        ? (doc as { _id?: unknown })._id
+        : undefined
+
+    if (typeof id !== 'string' && typeof id !== 'number') {
+      throw toCloudFailure(
+        'removeAllMine',
+        new Error('Cloud document is missing an _id'),
+      )
+    }
+
+    let result: { stats: { removed: number } }
+
+    try {
+      result = await collection.doc(String(id)).remove()
+    } catch (error) {
+      throw toCloudFailure('removeAllMine', error)
+    }
+
+    // resolve 但一条都没删掉（并发变化、安全规则拒绝等）同样视为失败，
+    // 不能把这一批标记为部分成功。
+    if (result.stats.removed === 0) {
+      throw toCloudFailure(
+        'removeAllMine',
+        new Error('CloudBase reported zero removed documents'),
+      )
+    }
   }
 }
