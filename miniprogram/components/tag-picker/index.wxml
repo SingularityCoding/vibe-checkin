@@ -1,4 +1,47 @@
-<view class="tags" wx:if="{{selectedTags.length}}">
-  <t-tag wx:for="{{selectedTags}}" wx:key="*this" theme="primary" variant="light">{{item}}</t-tag>
+<view class="tag-picker">
+  <view class="header">
+    <text class="title">学习主题</text>
+    <text class="count">{{selectedTags.length}}/{{maxTagCount}} 个主题</text>
+  </view>
+
+  <view class="selected-tags" wx:if="{{selectedTags.length}}">
+    <view wx:for="{{selectedTags}}" wx:key="*this" class="selected-tag-item">
+      <t-tag
+        theme="primary"
+        variant="light"
+        closable
+        data-tag="{{item}}"
+        bind:close="onRemoveTag"
+      >{{item}}</t-tag>
+    </view>
+  </view>
+  <view wx:else class="placeholder">选择或新建主题</view>
+
+  <view class="input-row">
+    <input
+      class="input"
+      value="{{inputValue}}"
+      bindinput="onInput"
+      bindconfirm="onAddTag"
+      placeholder="输入学习主题"
+      maxlength="{{maxTagLength}}"
+    />
+    <button type="primary" size="mini" bindtap="onAddTag">添加</button>
+  </view>
+
+  <vc-status-note wx:if="{{errorMessage}}" state="error" text="{{errorMessage}}" />
+
+  <view class="suggestions" wx:if="{{suggestionItems.length}}">
+    <view
+      wx:for="{{suggestionItems}}"
+      wx:key="tag"
+      class="suggestion-item"
+      data-tag="{{item.tag}}"
+      bindtap="onSelectSuggestion"
+    >
+      <t-tag theme="default" variant="{{item.selected ? 'light' : 'outline'}}">
+        {{item.tag}}
+      </t-tag>
+    </view>
+  </view>
 </view>
-<view wx:else class="placeholder">选择或新建主题</view>
