@@ -1,4 +1,4 @@
-import type { TodaySummaryViewModel } from '../../features/today-summary'
+import type { TodaySummaryViewModel } from '../../features/today-summary/index'
 
 const emptyModel: TodaySummaryViewModel = {
   currentStreak: 0,

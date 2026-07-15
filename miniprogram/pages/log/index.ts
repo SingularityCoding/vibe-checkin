@@ -3,13 +3,13 @@ import type { LoadState } from '../../domain/load-state'
 import {
   applyKeywordFilter,
   buildFilterResultSummary,
-} from '../../features/log-keyword-filter'
+} from '../../features/log-keyword-filter/index'
 import {
   applyStructuredFilters,
   buildStructuredFilterOptions,
   type StructuredFilterValue,
-} from '../../features/log-structured-filter'
-import { buildLogTimeline } from '../../features/log-timeline'
+} from '../../features/log-structured-filter/index'
+import { buildLogTimeline } from '../../features/log-timeline/index'
 import { recordRepository } from '../../repositories/record'
 import { SystemClock } from '../../shared/date/clock'
 import { isLocalDate } from '../../shared/date/local-date'

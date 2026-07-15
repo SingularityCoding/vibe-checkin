@@ -1,4 +1,4 @@
-import type { RecordDraft } from '../record-create'
+import type { RecordDraft } from '../record-create/index'
 
 export const hasRecordDraftChanged = (
   _initialDraft: RecordDraft,

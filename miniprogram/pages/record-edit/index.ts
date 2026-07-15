@@ -3,7 +3,7 @@ import {
   createInitialDraft,
   type RecordDraft,
   validateRecordDraft,
-} from '../../features/record-create'
+} from '../../features/record-create/index'
 import { preferenceRepository } from '../../repositories/preference'
 import { recordRepository } from '../../repositories/record'
 import { SystemClock } from '../../shared/date/clock'

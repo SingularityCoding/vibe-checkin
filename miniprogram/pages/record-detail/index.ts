@@ -2,7 +2,7 @@ import type { LoadState } from '../../domain/load-state'
 import {
   buildRecordDetail,
   type RecordDetailViewModel,
-} from '../../features/record-detail'
+} from '../../features/record-detail/index'
 import { recordRepository } from '../../repositories/record'
 import {
   buildEditRecordRoute,

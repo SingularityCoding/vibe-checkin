@@ -1,6 +1,6 @@
 import type { LoadState } from '../../domain/load-state'
-import { buildTodayActivity } from '../../features/today-activity'
-import { buildTodaySummary } from '../../features/today-summary'
+import { buildTodayActivity } from '../../features/today-activity/index'
+import { buildTodaySummary } from '../../features/today-summary/index'
 import { recordRepository } from '../../repositories/record'
 import { SystemClock } from '../../shared/date/clock'
 import {

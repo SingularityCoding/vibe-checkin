@@ -1,8 +1,8 @@
 import type { LoadState } from '../../domain/load-state'
-import { buildStatisticsOverview } from '../../features/statistics-overview'
-import { buildMonthCalendar } from '../../features/stats-calendar'
-import { buildSevenDayTrend } from '../../features/stats-seven-day-trend'
-import { buildTagRank } from '../../features/stats-tag-rank'
+import { buildStatisticsOverview } from '../../features/statistics-overview/index'
+import { buildMonthCalendar } from '../../features/stats-calendar/index'
+import { buildSevenDayTrend } from '../../features/stats-seven-day-trend/index'
+import { buildTagRank } from '../../features/stats-tag-rank/index'
 import { recordRepository } from '../../repositories/record'
 import { SystemClock } from '../../shared/date/clock'
 import {

@@ -1,4 +1,4 @@
-import type { RecordDraft } from '../../features/record-create'
+import type { RecordDraft } from '../../features/record-create/index'
 
 const emptyDraft: RecordDraft = {
   content: '',
