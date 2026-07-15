@@ -1,4 +1,41 @@
-<view class="tags" wx:if="{{selectedTags.length}}">
-  <t-tag wx:for="{{selectedTags}}" wx:key="*this" theme="primary" variant="light">{{item}}</t-tag>
+<view class="tag-picker">
+  <view class="tag-picker__selected" wx:if="{{selectedTags.length}}">
+    <t-tag
+      wx:for="{{selectedTags}}"
+      wx:key="*this"
+      theme="primary"
+      variant="light"
+      closable="{{true}}"
+      data-tag="{{item}}"
+      bind:close="onRemoveTag"
+    >{{item}}</t-tag>
+  </view>
+  <view wx:else class="tag-picker__placeholder">选择或新建主题</view>
+
+  <view class="tag-picker__suggestions" wx:if="{{suggestionItems.length}}">
+    <t-tag
+      wx:for="{{suggestionItems}}"
+      wx:key="tag"
+      theme="{{item.selected ? 'primary' : 'default'}}"
+      variant="{{item.selected ? 'dark' : 'outline'}}"
+      data-tag="{{item.tag}}"
+      bind:click="onToggleSuggested"
+    >{{item.tag}}</t-tag>
+  </view>
+
+  <view class="tag-picker__input">
+    <t-input
+      class="tag-picker__input-field"
+      value="{{inputValue}}"
+      placeholder="输入新主题"
+      maxlength="{{maxTagLength}}"
+      confirm-type="done"
+      bind:change="onInputChange"
+      bind:enter="onConfirmInput"
+    />
+    <t-button size="small" variant="outline" theme="primary" bind:tap="onConfirmInput">添加</t-button>
+  </view>
+
+  <view class="tag-picker__hint">{{selectedTags.length}}/{{maxTagCount}} 个主题</view>
+  <vc-status-note wx:if="{{errorMessage}}" state="error" text="{{errorMessage}}" />
 </view>
-<view wx:else class="placeholder">选择或新建主题</view>

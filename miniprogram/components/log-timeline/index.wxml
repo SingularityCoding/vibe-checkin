@@ -30,6 +30,9 @@
       bind:tap="onOpenRecord"
     >
       <view class="record__meta">{{record.time}} · {{record.duration}} 分钟</view>
+      <view class="record__tags" wx:if="{{record.tags.length}}">
+        <t-tag wx:for="{{record.tags}}" wx:for-item="tag" wx:key="*this" variant="light" size="small">{{tag}}</t-tag>
+      </view>
       <view class="record__content">{{record.content}}</view>
     </vc-card>
   </view>

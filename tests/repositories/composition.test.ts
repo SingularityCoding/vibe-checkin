@@ -41,6 +41,9 @@ describe('repository composition', () => {
     expect(getCloudRepositories().preference).toBe(getLocalRepositories().preference)
 
     useCloudRepositories()
-    await expect(recordRepository.list()).rejects.toThrow('not implemented')
+    // Vitest runs outside a Mini Program host, so `wx.cloud` never exists
+    // here; the composed Cloud repository must still fail honestly instead
+    // of silently returning Local/In-memory data.
+    await expect(recordRepository.list()).rejects.toThrow('unavailable')
   })
 })

@@ -16,9 +16,21 @@
   font-weight: 600;
 }
 
-.field__hint {
-  margin-top: 10rpx;
+.field__row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.field__unit {
   color: var(--vc-color-text-secondary);
-  font-size: 22rpx;
-  text-align: right;
+  font-size: 26rpx;
+}
+
+.field__error {
+  display: block;
+  margin-top: 10rpx;
+  color: var(--vc-color-danger);
+  font-size: 24rpx;
+  line-height: 32rpx;
 }

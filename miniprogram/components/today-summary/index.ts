@@ -4,6 +4,7 @@ const emptyModel: TodaySummaryViewModel = {
   currentStreak: 0,
   todayMinutes: 0,
   todayRecordCount: 0,
+  actionState: 'first-time',
   actionTitle: '',
   actionDescription: '',
   actionText: '',
