@@ -71,9 +71,12 @@ miniprogram/
 ├─ repositories/
 │  ├─ record-repository.ts
 │  ├─ preference-repository.ts
+│  ├─ composition.ts
 │  ├─ record.ts
 │  ├─ preference.ts
 │  ├─ local-record/
+│  ├─ local-preference/
+│  ├─ in-memory-record/
 │  └─ cloud-record/
 ├─ fixtures/
 │  ├─ scenarios.ts
@@ -368,6 +371,18 @@ P0 提供相对固定 `Clock` 生成的四个场景：
 | `read-error` | Repository 读取失败，验证错误与重试 |
 
 Fixture 只写入课程专用本地 Storage key，不写 CloudBase。学生可以从开发者工具 Console 调用 P0 暴露的 seed 入口切换场景；每个正式 Spec 会明确自己需要使用哪一个场景以及预期结果。
+
+仅在开发版小程序中，Console 暴露以下入口。切换后会自动重新打开 Today 页面：
+
+```js
+await getApp().devFixtures.seed('empty')
+await getApp().devFixtures.seed('today')
+await getApp().devFixtures.seed('history')
+await getApp().devFixtures.seed('read-error')
+await getApp().devFixtures.reset()
+```
+
+也可以运行 `getApp().devFixtures.help()` 查看提示。`reset()` 会删除 Starter Kit 专用的记录和偏好 key，并恢复默认 Local Repository；它不会清理其他小程序 Storage，也不会调用 CloudBase。
 
 ## 11. 测试边界
 

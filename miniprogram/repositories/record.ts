@@ -1,42 +1,40 @@
 import type { LearningRecord, RecordInput } from '../domain/learning-record'
 import type { SyncInfo } from '../domain/sync-info'
+import { getRepositories } from './composition'
 import type { RecordRepository } from './record-repository'
 
-class StarterRecordRepository implements RecordRepository {
-  async list(): Promise<LearningRecord[]> {
-    return []
+class ComposedRecordRepository implements RecordRepository {
+  list(): Promise<LearningRecord[]> {
+    return getRepositories().record.list()
   }
 
-  async get(_id: string): Promise<LearningRecord | null> {
-    return null
+  get(id: string): Promise<LearningRecord | null> {
+    return getRepositories().record.get(id)
   }
 
-  async create(_input: RecordInput): Promise<LearningRecord> {
-    throw new Error('Record creation is not available in the starter adapter')
+  create(input: RecordInput): Promise<LearningRecord> {
+    return getRepositories().record.create(input)
   }
 
-  async update(_id: string, _input: RecordInput): Promise<LearningRecord> {
-    throw new Error('Record updates are not available in the starter adapter')
+  update(id: string, input: RecordInput): Promise<LearningRecord> {
+    return getRepositories().record.update(id, input)
   }
 
-  async remove(_id: string): Promise<void> {
-    throw new Error('Record deletion is not available in the starter adapter')
+  remove(id: string): Promise<void> {
+    return getRepositories().record.remove(id)
   }
 
-  async removeAllMine(): Promise<void> {
-    throw new Error('Bulk record deletion is not available in the starter adapter')
+  removeAllMine(): Promise<void> {
+    return getRepositories().record.removeAllMine()
   }
 
-  async reloadFromCloud(): Promise<LearningRecord[]> {
-    return []
+  reloadFromCloud(): Promise<LearningRecord[]> {
+    return getRepositories().record.reloadFromCloud()
   }
 
-  async getSyncInfo(): Promise<SyncInfo> {
-    return {
-      state: 'idle',
-      message: 'Starter Kit 使用本地开发数据',
-    }
+  getSyncInfo(): Promise<SyncInfo> {
+    return getRepositories().record.getSyncInfo()
   }
 }
 
-export const recordRepository: RecordRepository = new StarterRecordRepository()
+export const recordRepository: RecordRepository = new ComposedRecordRepository()

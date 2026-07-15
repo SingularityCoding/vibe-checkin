@@ -1,14 +1,15 @@
 import type { LearningPreference } from '../domain/learning-preference'
+import { getRepositories } from './composition'
 import type { PreferenceRepository } from './preference-repository'
 
-class StarterPreferenceRepository implements PreferenceRepository {
-  async get(): Promise<LearningPreference> {
-    return { defaultDuration: 30 }
+class ComposedPreferenceRepository implements PreferenceRepository {
+  get(): Promise<LearningPreference> {
+    return getRepositories().preference.get()
   }
 
-  async save(input: LearningPreference): Promise<LearningPreference> {
-    return input
+  save(input: LearningPreference): Promise<LearningPreference> {
+    return getRepositories().preference.save(input)
   }
 }
 
-export const preferenceRepository: PreferenceRepository = new StarterPreferenceRepository()
+export const preferenceRepository: PreferenceRepository = new ComposedPreferenceRepository()
