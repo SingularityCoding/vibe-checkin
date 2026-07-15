@@ -1,6 +1,14 @@
-@import '../styles/design-tokens.wxss';
-
+/* custom-tab-bar renders outside any <page> element, so it never
+   inherits the page { --vc-color-* } tokens from design-tokens.wxss.
+   Values below are duplicated from that file's light/dark palettes. */
 .vc-tab-bar {
-  background: var(--vc-color-surface);
-  color: var(--vc-color-text-secondary);
+  background: #fffdf9;
+  color: #817169;
+}
+
+@media (prefers-color-scheme: dark) {
+  .vc-tab-bar {
+    background: #2d241f;
+    color: #c6b4a7;
+  }
 }
