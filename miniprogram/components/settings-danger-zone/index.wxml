@@ -1,1 +1,51 @@
-<view wx:if="{{visible}}" class="slot"></view>
+<view class="heading">数据与隐私</view>
+<view class="danger-zone">
+  <view class="danger-zone__description">
+    删除当前微信身份下保存的全部学习记录。此操作只影响你自己的数据，不会更改默认学习时长偏好。
+  </view>
+
+  <block wx:if="{{step === 'idle'}}">
+    <t-button
+      class="danger-zone__control"
+      theme="danger"
+      variant="outline"
+      block="{{true}}"
+      loading="{{removing}}"
+      disabled="{{removing}}"
+      bind:tap="onRequestConfirm"
+    >
+      {{removing ? '删除中' : '删除我的全部学习记录'}}
+    </t-button>
+  </block>
+
+  <block wx:else>
+    <view class="danger-zone__confirm-text">
+      再次确认：这会永久删除当前微信身份下的全部学习记录，且无法恢复。
+    </view>
+    <t-button
+      class="danger-zone__control"
+      theme="danger"
+      block="{{true}}"
+      disabled="{{removing}}"
+      bind:tap="onConfirmRemoveAll"
+    >
+      确认删除，不可恢复
+    </t-button>
+    <t-button
+      class="danger-zone__control"
+      variant="outline"
+      block="{{true}}"
+      disabled="{{removing}}"
+      bind:tap="onCancelConfirm"
+    >
+      取消
+    </t-button>
+  </block>
+
+  <vc-status-note
+    class="danger-zone__status"
+    wx:if="{{removeError}}"
+    state="error"
+    text="{{removeError}}"
+  />
+</view>
