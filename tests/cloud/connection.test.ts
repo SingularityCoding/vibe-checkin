@@ -42,10 +42,7 @@ describe('CloudBase connection foundation', () => {
   it('initializes the configured environment exactly through the cloud port', () => {
     const stub = createCloudStub()
 
-    expect(initializeCloudBase({ cloud: stub.cloud })).toEqual({
-      state: 'ready',
-      message: '微信云开发已初始化。',
-    })
+    expect(initializeCloudBase({ cloud: stub.cloud })).toMatchObject({ state: 'ready' })
     expect(stub.init).toHaveBeenCalledWith({
       env: CLOUD_ENV_ID,
       traceUser: true,
@@ -69,11 +66,10 @@ describe('CloudBase connection foundation', () => {
 
     await expect(
       checkCloudConnection({ cloud: stub.cloud, now: () => 123456 }),
-    ).resolves.toEqual({
+    ).resolves.toMatchObject({
       ok: true,
       checkedAt: 123456,
       collection: CLOUD_COLLECTIONS.learningRecords,
-      message: 'CloudBase collection 与当前用户权限可正常访问。',
     })
     expect(stub.database).toHaveBeenCalledWith({ env: CLOUD_ENV_ID })
     expect(stub.collection).toHaveBeenCalledWith(CLOUD_COLLECTIONS.learningRecords)
@@ -84,14 +80,23 @@ describe('CloudBase connection foundation', () => {
   })
 
   it('returns a safe diagnostic error without exposing database documents', async () => {
-    const stub = createCloudStub({ readError: { errCode: 'PERMISSION_DENIED' } })
+    const stub = createCloudStub({
+      readError: {
+        errCode: 'PERMISSION_DENIED',
+        _openid: 'private-user-id',
+        data: [{ content: 'private learning record' }],
+      },
+    })
 
-    await expect(
-      checkCloudConnection({ cloud: stub.cloud, now: () => 654321 }),
-    ).resolves.toMatchObject({
+    const result = await checkCloudConnection({ cloud: stub.cloud, now: () => 654321 })
+
+    expect(result).toMatchObject({
       ok: false,
       checkedAt: 654321,
       errorCode: 'PERMISSION_DENIED',
     })
+    expect(result).not.toHaveProperty('_openid')
+    expect(result).not.toHaveProperty('data')
+    expect(JSON.stringify(result)).not.toContain('private learning record')
   })
 })

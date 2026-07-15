@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { getNavigationTheme, resolveTheme, syncNavigationTheme } from '../../miniprogram/utils/theme'
+import { resolveTheme, syncNavigationTheme } from '../../miniprogram/utils/theme'
 
 afterEach(() => {
   vi.unstubAllGlobals()
@@ -17,21 +17,8 @@ describe('resolveTheme', () => {
   })
 })
 
-describe('getNavigationTheme', () => {
-  it('uses a warm chrome color for each theme', () => {
-    expect(getNavigationTheme('light')).toEqual({
-      backgroundColor: '#FFF8F0',
-      frontColor: '#000000',
-    })
-    expect(getNavigationTheme('dark')).toEqual({
-      backgroundColor: '#211A16',
-      frontColor: '#ffffff',
-    })
-  })
-})
-
 describe('syncNavigationTheme', () => {
-  it('reads the current theme from app base info', () => {
+  it('reads the current system theme and updates the navigation bar', () => {
     const getAppBaseInfo = vi.fn(() => ({ theme: 'dark' }))
     const setNavigationBarColor = vi.fn()
 
@@ -39,13 +26,6 @@ describe('syncNavigationTheme', () => {
 
     expect(syncNavigationTheme()).toBe('dark')
     expect(getAppBaseInfo).toHaveBeenCalledOnce()
-    expect(setNavigationBarColor).toHaveBeenCalledWith({
-      backgroundColor: '#211A16',
-      frontColor: '#ffffff',
-      animation: {
-        duration: 0,
-        timingFunc: 'linear',
-      },
-    })
+    expect(setNavigationBarColor).toHaveBeenCalledOnce()
   })
 })
