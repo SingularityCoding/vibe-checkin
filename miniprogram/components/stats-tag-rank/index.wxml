@@ -1,1 +1,17 @@
-<view wx:if="{{items.length}}" class="slot"></view>
+<vc-card wx:if="{{items.length}}" vc-class="card">
+  <view class="header">
+    <text class="header__title">学习主题</text>
+    <text class="header__badge">Top 3 排名</text>
+  </view>
+  <view
+    wx:for="{{items}}"
+    wx:key="tag"
+    class="rank"
+    data-tag="{{item.tag}}"
+    bind:tap="onSelectTag"
+  >
+    <view class="rank__index">{{index + 1}}</view>
+    <view class="rank__tag">{{item.tag}}</view>
+    <view class="rank__count">{{item.count}} 次</view>
+  </view>
+</vc-card>
