@@ -9,6 +9,17 @@
   font-weight: 600;
 }
 
+.duration-control {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.duration-unit {
+  color: var(--vc-color-text-secondary);
+  font-size: 24rpx;
+}
+
 .status-note {
   margin-top: 16rpx;
 }
