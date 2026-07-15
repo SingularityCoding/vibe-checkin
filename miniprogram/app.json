@@ -35,7 +35,5 @@
     ]
   },
   "darkmode": true,
-  "style": "v2",
-  "componentFramework": "glass-easel",
-  "lazyCodeLoading": "requiredComponents"
+  "style": "v2"
 }
