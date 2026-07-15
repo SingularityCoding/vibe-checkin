@@ -1,0 +1,6 @@
+<view class="vc-status-note vc-status-note--{{state}}">
+  <t-icon wx:if="{{state === 'success'}}" name="check-circle" size="28rpx" />
+  <t-icon wx:elif="{{state === 'error'}}" name="error-circle" size="28rpx" />
+  <t-icon wx:else name="info-circle" size="28rpx" />
+  <text>{{text}}</text>
+</view>

@@ -1,0 +1,3 @@
+<view class="vc-card vc-card--{{tone}} vc-class">
+  <slot />
+</view>

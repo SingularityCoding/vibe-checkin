@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+.vc-card {
+  padding: 32rpx;
+  border: 1rpx solid var(--vc-color-border);
+  border-radius: var(--vc-radius-lg);
+  background: var(--vc-color-surface);
+}
+
+.vc-card--hero {
+  border-color: transparent;
+  background: var(--vc-color-ink);
+  color: var(--vc-color-surface);
+}

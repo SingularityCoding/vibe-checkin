@@ -1,0 +1,134 @@
+page {
+  box-sizing: border-box;
+  background: var(--vc-color-page);
+  color: var(--vc-color-text);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 28rpx;
+  line-height: 1.5;
+}
+
+view,
+text {
+  box-sizing: border-box;
+}
+
+.vc-page {
+  min-height: 100vh;
+  padding: 32rpx 32rpx calc(176rpx + env(safe-area-inset-bottom));
+  background: var(--vc-color-page);
+}
+
+.vc-page__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 40rpx;
+}
+
+.vc-page__title {
+  color: var(--vc-color-ink);
+  font-size: 48rpx;
+  font-weight: 700;
+  line-height: 64rpx;
+}
+
+.vc-page__subtitle,
+.vc-meta {
+  margin-top: 8rpx;
+  color: var(--vc-color-text-secondary);
+  font-size: 24rpx;
+  line-height: 36rpx;
+}
+
+.vc-icon-button {
+  display: flex;
+  width: 88rpx;
+  height: 88rpx;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx solid var(--vc-color-border);
+  border-radius: 50%;
+  background: var(--vc-color-surface);
+}
+
+.vc-section {
+  margin-top: 48rpx;
+}
+
+.vc-section__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 20rpx;
+  color: var(--vc-color-ink);
+  font-size: 34rpx;
+  font-weight: 600;
+  line-height: 48rpx;
+}
+
+.vc-week {
+  display: flex;
+  justify-content: space-between;
+  gap: 8rpx;
+}
+
+.vc-week__item {
+  display: flex;
+  width: 76rpx;
+  height: 96rpx;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--vc-radius-sm);
+  color: var(--vc-color-text-secondary);
+}
+
+.vc-week__item--today {
+  background: var(--vc-color-primary-soft);
+  color: var(--vc-color-ink);
+  font-weight: 600;
+}
+
+.vc-week__date {
+  margin-top: 4rpx;
+  font-size: 22rpx;
+}
+
+.vc-form {
+  display: flex;
+  flex-direction: column;
+  gap: 36rpx;
+}
+
+.vc-field__label {
+  display: block;
+  margin-bottom: 12rpx;
+  color: var(--vc-color-ink);
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.vc-field__hint {
+  margin-top: 10rpx;
+  color: var(--vc-color-text-secondary);
+  font-size: 22rpx;
+  text-align: right;
+}
+
+.vc-tag-placeholder {
+  display: inline-flex;
+  min-height: 64rpx;
+  align-items: center;
+  padding: 0 24rpx;
+  border: 1rpx dashed var(--vc-color-border);
+  border-radius: var(--vc-radius-sm);
+  color: var(--vc-color-text-secondary);
+  font-size: 26rpx;
+}
+
+.vc-static-note {
+  margin-top: 16rpx;
+  color: var(--vc-color-text-secondary);
+  font-size: 24rpx;
+  line-height: 36rpx;
+}

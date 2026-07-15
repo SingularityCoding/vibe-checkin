@@ -1,0 +1,25 @@
+:host {
+  display: block;
+}
+
+.vc-status-note {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 16rpx 20rpx;
+  border-radius: var(--vc-radius-sm);
+  background: var(--vc-color-surface-muted);
+  color: var(--vc-color-text-secondary);
+  font-size: 24rpx;
+  line-height: 36rpx;
+}
+
+.vc-status-note--success {
+  background: var(--vc-color-green-soft);
+  color: var(--vc-color-green);
+}
+
+.vc-status-note--error {
+  background: #fde6e5;
+  color: var(--vc-color-danger);
+}

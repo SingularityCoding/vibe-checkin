@@ -1,0 +1,10 @@
+<view class="vc-empty-state">
+  <view class="vc-empty-state__icon">
+    <t-icon name="{{icon}}" size="56rpx" />
+  </view>
+  <view class="vc-empty-state__title">{{title}}</view>
+  <view class="vc-empty-state__description">{{description}}</view>
+  <t-button wx:if="{{actionText}}" theme="primary" block="{{true}}" bind:tap="onAction">
+    {{actionText}}
+  </t-button>
+</view>

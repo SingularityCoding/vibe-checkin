@@ -1,0 +1,41 @@
+:host {
+  display: block;
+}
+
+.vc-empty-state {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 48rpx 16rpx 16rpx;
+  color: var(--vc-color-text-secondary);
+  text-align: center;
+}
+
+.vc-empty-state__icon {
+  display: flex;
+  width: 112rpx;
+  height: 112rpx;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--vc-color-primary-soft);
+  color: var(--vc-color-primary);
+}
+
+.vc-empty-state__title {
+  margin-top: 24rpx;
+  color: var(--vc-color-ink);
+  font-size: 34rpx;
+  font-weight: 600;
+  line-height: 48rpx;
+}
+
+.vc-empty-state__description {
+  margin: 12rpx 0 32rpx;
+  font-size: 26rpx;
+  line-height: 40rpx;
+}
+
+t-button {
+  width: 100%;
+}
